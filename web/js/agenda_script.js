@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="col-hora">${hora}</div>
                         <div class="col-estado">
                             <a href="../index.html?hora=${hora}&fisio=${fisioId}" class="enlace-hueco-libre">
-                                <i class="fa-solid fa-plus"></i> Hueco disponible - ${fisioId === 'maria_rosa' ? 'María Rosa' : 'Alba Rojo'}
+                                <i class="fa-solid fa-plus"></i> Hueco disponible - ${fisioId === 'maria_rosa' ? 'Rosa' : 'Alba Rojo'}
                             </a>
                         </div>
                     `;
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="col-estado">
                             <div class="bloque-cita">
                                 <div class="cita-linea-superior">
-                                    <span class="etiqueta-ocupado">Cita Asignada - ${cita.fisio === 'maria_rosa' ? 'María Rosa' : 'Alba Rojo'}</span>
+                                    <span class="etiqueta-ocupado">Cita Asignada - ${cita.fisio === 'maria_rosa' ? 'Rosa' : 'Alba Rojo'}</span>
                                     <div class="acciones-cita-wrapper">
                                         <button type="button" class="btn-accion-cita btn-editar-cita" data-hora="${hora}" data-fisio="${fisioId}"><i class="fa-solid fa-pen"></i></button>
                                         <button type="button" class="btn-accion-cita btn-eliminar-cita" data-hora="${hora}" data-fisio="${fisioId}"><i class="fa-solid fa-trash"></i></button>
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const cita = baseDatosCitas.find(c => c.hora === b.dataset.hora && c.fisio === b.dataset.fisio);
 
                 if (cita) {
-                    const msg = `Hola ${cita.nombre}, te recordamos tu cita en *aiire* con *${cita.fisio === 'maria_rosa' ? 'María Rosa' : 'Alba Rojo'}* hoy a las *${cita.hora}hs*.`;
+                    const msg = `Hola ${cita.nombre}, te recordamos tu cita en *aiire* con *${cita.fisio === 'maria_rosa' ? 'Rosa' : 'Alba Rojo'}* hoy a las *${cita.hora}hs*.`;
                     window.open(`https://api.whatsapp.com/send?phone=34${cita.tel}&text=${encodeURIComponent(msg)}`, '_blank');
                 }
             });
