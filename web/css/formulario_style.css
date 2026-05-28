@@ -1,0 +1,306 @@
+/* ==========================================================================
+   ESTILOS DE LA PANTALLA GENERAL Y TARJETA DEL FORMULARIO
+   ========================================================================= */
+
+/* Centrado del bloque principal en la pantalla */
+.contenedor-formulario-cita {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Tarjeta contenedora de estilo premium */
+.tarjeta-formulario {
+    background-color: var(--crema-letras);
+    width: 100%;
+    max-width: 850px;
+    padding: 45px;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+}
+
+/* Cabecera del formulario */
+.form-cabecera {
+    margin-bottom: 35px;
+    border-bottom: 1px solid rgba(67, 75, 52, 0.15);
+    padding-bottom: 20px;
+}
+
+.form-cabecera h2 {
+    color: var(--verde-aiire-ig);
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.form-cabecera p {
+    color: #666;
+    font-size: 0.95rem;
+    font-weight: 300;
+}
+
+/* ==========================================================================
+   DISPOSICIÓN EN FILAS Y CAMPOS (FLEXBOX RESPONSIVE)
+   ========================================================================= */
+
+/* Estructura para poner campos en parejas en PC */
+.form-fila {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 22px;
+}
+
+.form-fila .grupo-campo {
+    flex: 1; /* Hace que ambos campos de la fila midan exactamente lo mismo */
+}
+
+/* Caja contenedora de etiqueta + input */
+.grupo-campo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 22px;
+}
+
+/* Estilo de las etiquetas */
+.grupo-campo label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--texto-oscuro-pro);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.grupo-campo label i {
+    color: var(--azul-consciente); /* Iconos de FontAwesome en el azul zen */
+    font-size: 0.95rem;
+    width: 16px;
+    text-align: center;
+}
+
+/* ==========================================================================
+   INPUTS, SELECTORES Y CAJAS DE TEXTO
+   ========================================================================= */
+.grupo-campo input,
+.grupo-campo select,
+.grupo-campo textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid rgba(35, 41, 33, 0.25); /* Borde sutil */
+    border-radius: 8px;
+    background-color: #FDFDFB; /* Un blanco roto muy limpio */
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--texto-oscuro-pro);
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto foco interactivo cuando el fisio está escribiendo */
+.grupo-campo input:focus,
+.grupo-campo select:focus,
+.grupo-campo textarea:focus {
+    border-color: var(--azul-consciente);
+    box-shadow: 0 0 0 3px rgba(90, 118, 126, 0.15); /* Brillo azul sutil */
+}
+
+/* Estilo especial para el cuadro libre de notas clínicas */
+.grupo-campo textarea {
+    resize: vertical; /* Permite estirarlo hacia abajo pero no hacia los lados para no romper el layout */
+    min-height: 100px;
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   BOTONES DE ACCIÓN
+   ========================================================================= */
+.form-botones-accion {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+    border-top: 1px solid rgba(67, 75, 52, 0.1) ;
+    padding-top: 25px;
+}
+
+/* Botón principal (Guardar) */
+.btn-principal {
+    background-color: var(--verde-aiire-ig);
+    color: var(--crema-letras);
+    border: none;
+    padding: 16px 32px;
+    font-size: 1.05rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Botón secundario (Para cuando editemos y queramos cancelar) */
+.btn-secundario {
+    background-color: transparent;
+    color: #666;
+    border: 1px solid #bbb;
+    padding: 16px 24px;
+    font-size: 1.05rem;
+    font-weight: 400;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-secundario:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--texto-oscuro-pro);
+}
+
+/* Clase de utilidad para ocultar elementos dinámicamente */
+.oculto {
+    display: none !important;
+}
+
+/* ==========================================================================
+   NUEVO: PANEL INTERACTIVO DE BUSCADOR DE HUECOS LIBRES
+   ========================================================================= */
+.btn-enlace-huecos {
+    background: none;
+    border: none;
+    color: var(--azul-consciente);
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: underline;
+    transition: color 0.3s;
+}
+
+.btn-enlace-huecos:hover {
+    color: var(--texto-oscuro-pro);
+}
+
+/* Panel oculto con efecto persiana */
+.huecos-panel-oculto {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    background-color: var(--verde-fondo-claro);
+    border-radius: 8px;
+    margin-top: 0;
+    transition: max-height 0.4s ease-out, opacity 0.3s ease, margin 0.4s ease;
+}
+
+/* Clase que meterá JS para abrirlo */
+.huecos-panel-oculto.abierto {
+    max-height: 250px; /* Espacio suficiente para albergar los botones */
+    opacity: 1;
+    margin-top: 15px;
+    padding: 15px;
+}
+
+.huecos-instrucciones {
+    font-size: 0.85rem;
+    color: #555;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+/* Botones selectores de franja */
+.huecos-filtros-botones {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.btn-franja {
+    flex: 1;
+    background-color: var(--crema-letras);
+    border: 1px solid rgba(35, 41, 33, 0.1);
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--texto-oscuro-pro);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-franja:hover, .btn-franja.activo {
+    background-color: var(--verde-aiire-ig);
+    color: var(--crema-letras);
+    border-color: var(--verde-aiire-ig);
+}
+
+/* Grid donde salen las horas libres calculadas */
+.grid-huecos-resultado {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Píldoras de horas libres individuales */
+.pildora-hora-libre {
+    background-color: var(--crema-letras);
+    border: 1px solid var(--azul-consciente);
+    color: var(--azul-consciente);
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 20px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+}
+
+.pildora-hora-libre:hover {
+    background-color: var(--azul-consciente);
+    color: var(--crema-letras);
+    transform: scale(1.05);
+}
+
+/* ==========================================================================
+   RESPONSIVE (Para que rule perfecto si lo abren con el móvil)
+   ========================================================================= */
+@media (max-width: 768px) {
+    .contenedor-formulario-cita {
+        padding: 20px 10px;
+    }
+
+    .tarjeta-formulario {
+        padding: 25px 20px;
+        border-radius: 12px;
+    }
+
+    .form-cabecera h2 {
+        font-size: 1.6rem;
+    }
+
+    /* Rompemos las filas para que se pongan una encima de otra */
+    .form-fila {
+        flex-direction: column;
+        gap: 0;
+        margin-bottom: 0;
+    }
+
+    .form-botones-accion {
+        flex-direction: column;
+    }
+
+    .btn-principal, .btn-secundario {
+        width: 100%;
+        justify-content: center;
+        padding: 14px;
+    }
+}

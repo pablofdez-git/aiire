@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aiire - Agenda Diaria</title>
+    <link rel="stylesheet" href="../css/index_style.css">
+    <link rel="stylesheet" href="../css/agenda_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/index_script.js" defer></script>
+    <script src="../js/agenda_script.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo-aiire">
+            <span class="letra-a">a</span>
+            <span class="letra-i1">i</span>
+            <span class="letra-i2">i</span>
+            <span class="letra-r">r</span>
+            <span class="letra-e">e</span>
+        </div>
+        <nav class="menu-principal">
+            <a href="../index.html"><i class="fa-solid fa-calendar-plus"></i> Nueva Cita</a>
+            <a href="agenda.html" class="active"><i class="fa-solid fa-calendar-days"></i> Agenda Diaria</a>
+            <a href="historial.html"><i class="fa-solid fa-address-book"></i> Historial Pacientes</a>
+        </nav>
+    </header>
+
+    <main class="contenedor-agenda">
+        <div class="agenda-controladores">
+            <div class="navegador-fecha">
+                <button id="btn-dia-anterior" class="btn-flecha"><i class="fa-solid fa-chevron-left"></i></button>
+                <input type="date" id="selector-fecha-agenda">
+                <button id="btn-dia-siguiente" class="btn-flecha"><i class="fa-solid fa-chevron-right"></i></button>
+                <button id="btn-hoy" class="btn-hoy">Hoy</button>
+            </div>
+
+            <div class="filtros-fisio">
+                <button class="btn-filtro activo" data-fisio="todas">Ver Ambas</button>
+                <button class="btn-filtro" data-fisio="maria_rosa">María Rosa</button>
+                <button class="btn-filtro" data-fisio="alba_rojo">Alba Rojo</button>
+            </div>
+        </div>
+
+        <div class="tabla-agenda-diaria">
+            <div class="agenda-fila cabecera-tabla">
+                <div class="col-hora">Hora</div>
+                <div class="col-estado">Disponibilidad / Paciente</div>
+            </div>
+
+            <div id="contenedor-dinamico-horas" class="cuerpo-tabla-horas"></div>
+        </div>
+    </main>
+
+    <div id="modal-editar-cita" class="modal-overlay">
+        <div class="modal-contenedor">
+            <div class="modal-cabecera">
+                <h3><i class="fa-solid fa-pen-to-square"></i> Modificar Cita - <span id="modal-info-hora">00:00</span>h</h3>
+                <button type="button" id="btn-cerrar-modal" class="modal-btn-cerrar">&times;</button>
+            </div>
+            <form id="form-modal-editar">
+                <input type="hidden" id="modal-edit-hora">
+
+                <div class="modal-campo">
+                    <label for="modal-input-nombre">Nombre del Paciente</label>
+                    <input type="text" id="modal-input-nombre" required>
+                </div>
+                <div class="modal-row">
+                    <div class="modal-campo">
+                        <label for="modal-input-dni">DNI / NIE</label>
+                        <input type="text" id="modal-input-dni" required>
+                    </div>
+                    <div class="modal-campo">
+                        <label for="modal-input-tel">Teléfono</label>
+                        <input type="tel" id="modal-input-tel" required>
+                    </div>
+                </div>
+                <div class="modal-row">
+                    <div class="modal-campo">
+                        <label for="modal-select-fisio">Fisioterapeuta</label>
+                        <select id="modal-select-fisio" required>
+                            <option value="maria_rosa">María Rosa</option>
+                            <option value="alba_rojo">Alba Rojo</option>
+                        </select>
+                    </div>
+                    <div class="modal-campo">
+                        <label for="modal-select-servicio">Tratamiento</label>
+                        <select id="modal-select-servicio" required>
+                            <option value="Fisioterapia Musculoesquelética">Fisioterapia Musculoesquelética</option>
+                            <option value="Suelo Pélvico">Suelo Pélvico</option>
+                            <option value="Embarazo Activo">Embarazo Activo</option>
+                            <option value="Ejercicio Terapéutico">Ejercicio Terapéutico</option>
+                            <option value="Pilates / Yoga">Pilates / Yoga</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-campo">
+                    <label for="modal-textarea-notas">Notas Clínicas</label>
+                    <textarea id="modal-textarea-notas" rows="3"></textarea>
+                </div>
+                <div class="modal-botones">
+                    <button type="button" id="btn-modal-cancelar" class="btn-modal-secundario">Cancelar</button>
+                    <button type="submit" class="btn-modal-principal">Guardar Cambios <i class="fa-solid fa-check"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

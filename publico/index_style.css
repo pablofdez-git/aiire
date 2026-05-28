@@ -1,0 +1,587 @@
+/* ==========================================================================
+   1. VARIABLES Y ESTILOS GENERALES
+   ========================================================================= */
+:root {
+    --azul-consciente: #5A767E;
+    --verde-aiire-ig: #434B34;
+    --terracota-suave: #B37160;
+    --crema-letras: #EFECE1;
+    --azul-fondo-claro: #DCE5E7;
+    --verde-fondo-claro: #C2C9BC;
+    --arena-fondo-claro: #D6D2C4;
+    --texto-oscuro-pro: #232921;
+    --acento-dorado-viejo: #C6A296;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background-color: var(--verde-fondo-claro);
+    color: var(--texto-oscuro-pro);
+    overflow-x: hidden; /* Evita scrolls horizontales raros por las animaciones */
+}
+
+/* ==========================================================================
+   2. CONTENEDORES DE IMÁGENES (Ajuste estructural definitivo)
+   ========================================================================= */
+.contenedor-recorte-ig {
+    overflow: hidden;
+    position: relative;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    display: flex; /* Fuerza a que la caja se adapte al tamaño real */
+}
+
+/* Camilla: Clavada al 100% con escala limpia */
+.img-camilla {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    scale: 1;
+    transform: none !important;
+}
+
+/* Fachada: Aseguramos que rellene toda la altura del bloque del formulario */
+.img-fachada {
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+    object-fit: cover;
+    scale: 1;
+    transform: none !important;
+}
+
+/* Contenedor de la foto de la espalda */
+.filosofia-imagen {
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    display: flex;
+}
+
+/* Espalda: Escalada normal para que no deje bordes vacíos abajo */
+.filosofia-imagen img {
+    width: 100%;
+    height: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    scale: 1;
+    transform: none !important;
+}
+
+/* ==========================================================================
+   3. HEADER ANIMADO CON SCROLL
+   ========================================================================= */
+header {
+    background-color: var(--verde-aiire-ig);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 40px; /* Un poco más ancho al inicio */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: padding 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.4s ease;
+}
+
+/* Se activa dinámicamente con JS al bajar la página */
+.header-scroll {
+    padding: 10px 40px !important;
+    background-color: rgba(67, 75, 52, 0.95) !important;
+    backdrop-filter: blur(8px); /* Filtro de desenfoque de fondo */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.logo-aiire {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 300;
+    font-size: 2.5rem;
+    color: var(--crema-letras);
+    text-transform: lowercase;
+    text-decoration: none;
+}
+
+.logo-aiire span {
+    display: inline-block;
+    margin: 0 8px;
+}
+
+.logo-aiire .letra-a { transform: translateY(-8px); }
+.logo-aiire .letra-i1 { transform: translateY(12px); margin-left: -1px; }
+.logo-aiire .letra-i2 { transform: translateY(-20px); margin-left: -1px; }
+.logo-aiire .letra-r { transform: translateY(2px); margin-left: -1px; }
+.logo-aiire .letra-e { transform: translateY(14px); margin-left: -1px; }
+
+.menu-principal {
+    display: flex;
+    gap: 35px;
+}
+
+.menu-principal a {
+    text-decoration: none;
+    color: var(--crema-letras);
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    position: relative;
+    padding-bottom: 4px;
+}
+
+/* Línea decorativa inferior animada en el menú */
+.menu-principal a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--terracota-suave);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+}
+
+.menu-principal a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.botones-header {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.botones-header .btn-cita {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--crema-letras);
+    font-weight: 500;
+    background-color: var(--terracota-suave);
+    padding: 10px 22px;
+    border-radius: 50px;
+    display: inline-block;
+}
+
+.botones-header .btn-intranet {
+    text-decoration: none;
+    color: var(--crema-letras);
+    font-weight: 400;
+    border: 1px solid var(--crema-letras);
+    padding: 10px 18px;
+    border-radius: 50px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.botones-header .btn-intranet:hover {
+    background-color: rgba(239, 236, 225, 0.1);
+    border-color: var(--terracota-suave);
+}
+
+/* ==========================================================================
+   4. HERO SECTION
+   ========================================================================= */
+.hero {
+    background-color: var(--azul-consciente);
+    color: var(--crema-letras);
+    padding: 100px 40px;
+}
+
+.hero-contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.hero-texto {
+    flex: 1;
+}
+
+.hero-texto h2 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 25px;
+}
+
+.hero-texto p {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    margin-bottom: 40px;
+    color: #d1e0e3;
+    font-weight: 300;
+}
+
+.btn-hero-cita {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--texto-oscuro-pro);
+    background-color: var(--crema-letras);
+    padding: 16px 36px;
+    border-radius: 50px;
+    font-weight: 500;
+}
+
+.hero-imagen {
+    flex: 1;
+}
+
+/* ==========================================================================
+   5. FILOSOFÍA
+   ========================================================================= */
+.filosofia {
+    background-color: var(--arena-fondo-claro);
+    padding: 100px 40px;
+}
+
+.filosofia-contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 70px;
+}
+
+.filosofia-texto {
+    flex: 1;
+}
+
+.filosofia h2 {
+    font-size: 2.5rem;
+    color: var(--verde-aiire-ig);
+    font-weight: 400;
+    margin-bottom: 25px;
+}
+
+.filosofia p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: var(--texto-oscuro-pro);
+    font-weight: 300;
+}
+
+/* ==========================================================================
+   6. SERVICIOS (Estilo Lista Minimalista de image_6684e5.jpg)
+   ========================================================================= */
+.servicios {
+    background-color: var(--verde-fondo-claro);
+    padding: 100px 40px;
+}
+
+.servicios-contenedor {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: var(--terracota-suave);
+    padding: 60px 70px;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+.servicios h2 {
+    text-align: center;
+    color: var(--crema-letras);
+    font-size: 2.2rem;
+    font-weight: 300;
+    margin-bottom: 40px;
+}
+
+.lista-servicios {
+    list-style: none;
+}
+
+.lista-servicios li {
+    font-size: 1.3rem;
+    color: var(--crema-letras);
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(239, 236, 225, 0.25);
+    transition: padding-left 0.3s cubic-bezier(0.25, 1, 0.5, 1), color 0.3s;
+}
+
+.lista-servicios li:hover {
+    padding-left: 20px;
+    color: var(--verde-aiire-ig);
+}
+
+/* ==========================================================================
+   7. PREGUNTAS FRECUENTES (Efecto Acordeón Fluido con JS)
+   ========================================================================= */
+.faq {
+    background-color: var(--arena-fondo-claro);
+    padding: 100px 40px;
+}
+
+.faq-contenedor {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq h2 {
+    text-align: center;
+    color: var(--verde-aiire-ig);
+    margin-bottom: 50px;
+    font-weight: 400;
+}
+
+details {
+    background-color: var(--crema-letras);
+    margin-bottom: 15px;
+    border-radius: 8px;
+    padding: 18px 24px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+
+details:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+}
+
+summary {
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--verde-aiire-ig);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
+
+summary::after {
+    content: '＋';
+    font-weight: bold;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s;
+}
+
+/* Rotación del símbolo gestionada limpiamente */
+details[open] summary::after {
+    transform: rotate(45deg);
+    color: var(--terracota-suave);
+}
+
+details p {
+    margin-top: 0px;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    line-height: 1.65;
+    color: #444;
+    font-weight: 300;
+    transition: height 0.3s ease, opacity 0.3s ease, margin-top 0.3s ease;
+}
+
+/* ==========================================================================
+   8. RESERVA DE CITAS
+   ========================================================================= */
+.formulario-seccion {
+    padding: 100px 40px;
+    background-color: var(--verde-fondo-claro);
+}
+
+.formulario-doble-columna {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 60px;
+    align-items: stretch;
+}
+
+.contacto-imagen {
+    flex: 1;
+}
+
+.form-box {
+    flex: 1;
+    background-color: var(--crema-letras);
+    padding: 45px;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.04);
+}
+
+.form-box h2 { color: var(--verde-aiire-ig); margin-bottom: 12px; font-weight: 400; }
+.form-box p { color: #555; margin-bottom: 35px; font-size: 0.95rem; font-weight: 300; }
+.grupo-campo { margin-bottom: 22px; }
+.grupo-campo label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.9rem; color: #444; }
+
+.grupo-campo input, .grupo-campo select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    background-color: var(--verde-fondo-claro);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.grupo-campo input:focus, .grupo-campo select:focus {
+    border-color: var(--azul-consciente);
+}
+
+.btn-enviar {
+    width: 100%;
+    background-color: var(--verde-aiire-ig);
+    color: var(--crema-letras);
+    border: none;
+    padding: 16px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-enviar:hover {
+    background-color: var(--texto-oscuro-pro);
+}
+
+/* ==========================================================================
+   9. FOOTER (Maquetación en Columnas con Redes)
+   ========================================================================= */
+footer {
+    background-color: var(--texto-oscuro-pro);
+    color: var(--crema-letras);
+    padding: 80px 40px 25px 40px;
+}
+
+.footer-contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.footer-columna {
+    flex: 1;
+    min-width: 220px;
+}
+
+.footer-columna h4 {
+    color: var(--terracota-suave);
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-bottom: 22px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.footer-columna p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    opacity: 0.85;
+    font-weight: 300;
+}
+
+.footer-columna p i {
+    color: var(--azul-consciente);
+    margin-right: 12px;
+    font-size: 1rem;
+}
+
+.logo-footer {
+    font-size: 2.2rem;
+    font-weight: 300;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+.footer-eslogan {
+    font-style: italic;
+    color: var(--azul-fondo-claro);
+    max-width: 200px;
+}
+
+.horario-resaltado {
+    font-weight: 500 !important;
+    color: var(--crema-letras);
+    opacity: 1 !important;
+}
+
+.redes-sociales {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+.redes-sociales a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: rgba(239, 236, 225, 0.07);
+    color: var(--crema-letras);
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s, color 0.3s;
+}
+
+.redes-sociales a:hover {
+    background-color: var(--terracota-suave);
+    color: var(--texto-oscuro-pro);
+    transform: translateY(-4px);
+}
+
+.footer-derechos {
+    max-width: 1200px;
+    margin: 60px auto 0 auto;
+    padding-top: 25px;
+    border-top: 1px solid rgba(239, 236, 225, 0.08);
+    text-align: center;
+}
+
+.footer-derechos p {
+    font-size: 0.85rem;
+    opacity: 0.5;
+    font-weight: 300;
+}
+
+/* ==========================================================================
+   10. SECCIÓN RESPONSIVE BLINDADA
+   ========================================================================= */
+@media (max-width: 768px) {
+    header { flex-direction: column; gap: 20px; padding: 20px; }
+    .menu-principal { flex-wrap: wrap; justify-content: center; gap: 20px; }
+
+    .hero-contenedor, .filosofia-contenedor, .formulario-doble-columna {
+        flex-direction: column;
+        gap: 35px;
+    }
+
+    .hero-contenedor {
+        flex-direction: column-reverse;
+    }
+
+    .hero-texto, .filosofia-texto { text-align: center; }
+    .hero-texto h2 { font-size: 2.3rem; }
+
+    .img-camilla, .filosofia-imagen img, .img-fachada {
+        height: 320px !important;
+        min-height: 320px !important;
+        transform: none !important; /* Desactiva el parallax en móviles para ahorrar procesador */
+        scale: 1 !important;
+    }
+
+    .servicios-contenedor { padding: 40px 25px; }
+    .lista-servicios li { font-size: 1.15rem; }
+
+    .footer-contenedor { flex-direction: column; text-align: center; gap: 35px; }
+    .footer-eslogan { margin: 0 auto; }
+    .redes-sociales { justify-content: center; }
+}

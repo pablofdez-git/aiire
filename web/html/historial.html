@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aiire - Historial de Pacientes</title>
+    <link rel="stylesheet" href="../css/index_style.css">
+    <link rel="stylesheet" href="../css/historial_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/index_script.js" defer></script>
+    <script src="../js/historial_script.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo-aiire">
+            <span class="letra-a">a</span>
+            <span class="letra-i1">i</span>
+            <span class="letra-i2">i</span>
+            <span class="letra-r">r</span>
+            <span class="letra-e">e</span>
+        </div>
+        <nav class="menu-principal">
+            <a href="../index.html"><i class="fa-solid fa-calendar-plus"></i> Nueva Cita</a>
+            <a href="../html/agenda.html"><i class="fa-solid fa-calendar-days"></i> Agenda Diaria</a>
+            <a href="../html/historial.html" class="active"><i class="fa-solid fa-address-book"></i> Historial Pacientes</a>
+        </nav>
+    </header>
+
+    <main class="contenedor-historial">
+        <div class="barra-busqueda-wrapper">
+            <div class="caja-busqueda">
+                <i class="fa-solid fa-magnifying-glass buscador-icono"></i>
+                <input type="text" id="buscador-pacientes" placeholder="Buscar paciente por nombre, DNI o teléfono...">
+            </div>
+            <div class="contador-pacientes">
+                Pacientes registrados: <span id="num-pacientes">0</span>
+            </div>
+        </div>
+
+        <div class="tabla-historial-wrapper">
+            <table class="tabla-historial" style="display: none;">
+                <thead>
+                    <tr>
+                        <th><i class="fa-solid fa-user"></i> Paciente</th>
+                        <th><i class="fa-solid fa-id-card"></i> DNI / NIE</th>
+                        <th><i class="fa-solid fa-phone"></i> Teléfono</th>
+                        <th><i class="fa-solid fa-notes-medical"></i> Historial Clínico</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpo-tabla-pacientes">
+                    </tbody>
+            </table>
+
+            <div id="mensaje-no-resultados">
+                <i class="fa-solid fa-folder-open"></i> El historial médico está vacío. Añade una cita para registrar un paciente.
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

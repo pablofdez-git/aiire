@@ -1,0 +1,469 @@
+/* ==========================================================================
+   1. CONTENEDOR Y CONTROLADORES SUPERIORES
+   ========================================================================= */
+.contenedor-agenda {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Barra superior que organiza la fecha y los filtros */
+.agenda-controladores {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--crema-letras);
+    padding: 20px 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+}
+
+/* Navegador de fecha (Flechas + Input + Hoy) */
+.navegador-fecha {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-flecha {
+    background-color: var(--verde-fondo-claro);
+    color: var(--texto-oscuro-pro);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-flecha:hover {
+    background-color: var(--azul-consciente);
+    color: var(--crema-letras);
+    transform: scale(1.05);
+}
+
+#selector-fecha-agenda {
+    border: 1px solid rgba(35, 41, 33, 0.2);
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--texto-oscuro-pro);
+    background-color: #FDFDFB;
+    outline: none;
+    cursor: pointer;
+}
+
+.btn-hoy {
+    background-color: var(--verde-aiire-ig);
+    color: var(--crema-letras);
+    border: none;
+    padding: 11px 20px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-hoy:hover {
+    background-color: var(--texto-oscuro-pro);
+}
+
+/* Filtros de los fisioterapeutas */
+.filtros-fisio {
+    display: flex;
+    background-color: var(--verde-fondo-claro);
+    padding: 5px;
+    border-radius: 8px;
+    gap: 5px;
+}
+
+.btn-filtro {
+    background-color: transparent;
+    border: none;
+    color: var(--texto-oscuro-pro);
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Estado activo del filtro */
+.btn-filtro.activo {
+    background-color: var(--crema-letras);
+    color: var(--verde-aiire-ig);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================================================
+   2. ESTRUCTURA DE LA TABLA HORARIA
+   ========================================================================= */
+.tabla-agenda-diaria {
+    background-color: var(--crema-letras);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+/* Fila genérica */
+.agenda-fila {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(67, 75, 52, 0.08);
+}
+
+.agenda-fila:last-child {
+    border-bottom: none;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+/* Cabecera de la tabla */
+.cabecera-tabla {
+    background-color: var(--verde-aiire-ig);
+    color: var(--crema-letras);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    border-top-left-radius: 12px;  /* <--- AÑADE ESTA */
+    border-top-right-radius: 12px; /* <--- AÑADE ESTA */
+    position: relative;
+    z-index: 1;
+}
+
+.cabecera-tabla .col-hora,
+.cabecera-tabla .col-estado {
+    padding: 15px 25px;
+}
+
+.agenda-fila:last-child .col-hora {
+    border-bottom-left-radius: 12px; /* Forzamos también el fondo de la hora final */
+}
+
+/* Columnas individuales */
+.col-hora {
+    width: 120px;
+    padding: 22px 25px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--verde-aiire-ig);
+    border-right: 1px solid rgba(67, 75, 52, 0.08);
+    background-color: rgba(239, 236, 225, 0.4);
+    text-align: center;
+}
+
+.col-estado {
+    flex: 1;
+    padding: 12px 25px;
+    position: relative;
+}
+
+/* ==========================================================================
+   3. ESTADOS DE LAS CITAS (LIBRE / OCUPADO)
+   ========================================================================= */
+
+/* Hueco Libre */
+.enlace-hueco-libre {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--azul-consciente);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 400;
+    font-style: italic;
+    opacity: 0.7;
+    transition: opacity 0.3s, transform 0.2s;
+}
+
+.enlace-hueco-libre:hover {
+    opacity: 1;
+    transform: translateX(4px);
+}
+
+/* Bloque contenedor de Cita Ocupada */
+.bloque-cita {
+    position: relative; /* Clave para que el tooltip se posicione respecto a esta caja */
+    display: inline-block;
+    width: 100%;
+}
+
+.etiqueta-ocupado {
+    display: block;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.etiqueta-ocupado:hover {
+    transform: translateY(-1px);
+}
+
+.fisio-maria_rosa .etiqueta-ocupado {
+    background-color: rgba(90, 118, 126, 0.15);
+    color: #3b5258;
+    border-left: 4px solid var(--azul-consciente);
+}
+
+.fisio-maria_rosa .etiqueta-ocupado:hover {
+    box-shadow: 0 4px 12px rgba(90, 118, 126, 0.15);
+}
+
+.fisio-alba_rojo .etiqueta-ocupado {
+    background-color: rgba(179, 113, 96, 0.15);
+    color: #7d483b;
+    border-left: 4px solid var(--terracota-suave);
+}
+
+.fisio-alba_rojo .etiqueta-ocupado:hover {
+    box-shadow: 0 4px 12px rgba(179, 113, 96, 0.15);
+}
+
+/* ==========================================================================
+   4. BURBUJA FLOTANTE INTELIGENTE (TOOLTIP)
+   ========================================================================= */
+.tooltip-paciente {
+    position: absolute;
+    bottom: 125%;
+    left: 20px;
+    background-color: var(--texto-oscuro-pro);
+    color: var(--crema-letras);
+    padding: 20px;
+    border-radius: 12px;
+    width: 320px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    z-index: 1100; /* <--- SUBIMOS ESTO A 1100 PARA QUE FLOTE POR ENCIMA DE TODO */
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Triangulito decorativo inferior de la burbuja */
+.tooltip-paciente::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 30px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: var(--texto-oscuro-pro) transparent transparent transparent;
+}
+
+/* Activación mágica al pasar el ratón */
+.bloque-cita:hover .tooltip-paciente {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+/* Estilos internos de la información del paciente */
+.tooltip-paciente h3 {
+    font-size: 1.15rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: #FFF;
+    border-bottom: 1px solid rgba(239, 236, 225, 0.15);
+    padding-bottom: 8px;
+}
+
+.tooltip-paciente p {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.9;
+}
+
+.tooltip-paciente p i {
+    color: var(--acento-dorado-viejo);
+    width: 14px;
+}
+
+.tooltip-notas {
+    margin-top: 12px;
+    background-color: rgba(239, 236, 225, 0.06);
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #ccc;
+}
+
+.tooltip-notas strong {
+    color: var(--crema-letras);
+    display: block;
+    margin-bottom: 4px;
+}
+
+/* Contenedor flexible para alinear la etiqueta y el botón de WhatsApp */
+.cita-linea-superior {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 15px;
+}
+
+.etiqueta-ocupado {
+    flex: 1; /* Hace que la etiqueta ocupe el resto del espacio */
+}
+
+/* El botón de WhatsApp estético */
+.btn-whatsapp-recordatorio {
+    background-color: #25D366;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-whatsapp-recordatorio:hover {
+    background-color: #20ba56;
+    transform: translateY(-1px);
+}
+
+.btn-whatsapp-recordatorio i {
+    font-size: 1rem;
+}
+
+/* Contenedor del grupo de botones de la derecha */
+.acciones-cita-wrapper { display: flex; align-items: center; gap: 6px; }
+.btn-accion-cita { background-color: var(--verde-fondo-claro); color: var(--texto-oscuro-pro); border: none; width: 32px; height: 32px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; transition: all 0.2s ease; }
+.btn-editar-cita:hover { background-color: var(--azul-consciente); color: white; }
+.btn-eliminar-cita:hover { background-color: var(--terracota-suave); color: white; }
+.cita-linea-superior { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 15px; }
+.etiqueta-ocupado { flex: 1; }
+.btn-whatsapp-recordatorio { background-color: #25D366; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-family: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2); transition: background-color 0.2s, transform 0.2s; }
+.btn-whatsapp-recordatorio:hover { background-color: #20ba56; transform: translateY(-1px); }
+
+/* ==========================================================================
+   ESTILOS DE LA VENTANA EMERGENTE (MODAL)
+   ========================================================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(35, 41, 33, 0.6); /* Fondo oscurecido */
+    display: flex; align-items: center; justify-content: center;
+    z-index: 200;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* Clase para abrir el modal desde JS */
+.modal-overlay.mostrar { opacity: 1; pointer-events: auto; }
+
+.modal-contenedor {
+    background-color: var(--crema-letras);
+    width: 100%; max-width: 550px;
+    padding: 25px; border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+.modal-overlay.mostrar .modal-contenedor { transform: translateY(0); }
+
+.modal-cabecera { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(67,75,52,0.1); padding-bottom: 15px; margin-bottom: 20px; }
+.modal-cabecera h3 { color: var(--verde-aiire-ig); font-size: 1.25rem; font-weight: 600; }
+.modal-btn-cerrar { background: none; border: none; font-size: 1.8rem; color: #888; cursor: pointer; }
+.modal-btn-cerrar:hover { color: var(--terracota-suave); }
+
+.modal-campo { display: flex; flex-direction: column; gap: 6px; margin-bottom: 15px; }
+.modal-row { display: flex; gap: 15px; }
+.modal-row .modal-campo { flex: 1; }
+.modal-campo label { font-size: 0.85rem; font-weight: 600; color: var(--texto-oscuro-pro); }
+.modal-campo input, .modal-campo select, .modal-campo textarea {
+    padding: 10px; border: 1px solid rgba(35,41,33,0.2); border-radius: 6px; font-family: inherit; font-size: 0.95rem; background-color: #FDFDFB; outline: none;
+}
+.modal-campo input:focus, .modal-campo select:focus, .modal-campo textarea:focus { border-color: var(--azul-consciente); }
+
+.modal-botones { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; border-top: 1px solid rgba(67,75,52,0.1); padding-top: 15px; }
+.btn-modal-principal { background-color: var(--verde-aiire-ig); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 500; cursor: pointer; transition: background-color 0.2s; }
+.btn-modal-principal:hover { background-color: var(--texto-oscuro-pro); }
+.btn-modal-secundario { background-color: #eee; color: #555; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 500; cursor: pointer; }
+.btn-modal-secundario:hover { background-color: #ddd; }
+
+/* TRUCO MAESTRO: Forzamos a la fila entera a subir de capa al pasar el ratón */
+.agenda-fila:hover {
+    position: relative;
+    z-index: 9999 !important;
+}
+
+/* ==========================================================================
+   5. RESPONSIVE ADAPTADO PARA MÓVILES
+   ========================================================================= */
+@media (max-width: 768px) {
+    .contenedor-agenda {
+        padding: 20px 10px;
+    }
+
+    .agenda-controladores {
+        flex-direction: column;
+        gap: 18px;
+        padding: 20px 15px;
+    }
+
+    .navegador-fecha {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    #selector-fecha-agenda {
+        flex: 1;
+        text-align: center;
+    }
+
+    .filtros-fisio {
+        width: 100%;
+    }
+
+    .btn-filtro {
+        flex: 1;
+        padding: 10px 5px;
+        font-size: 0.85rem;
+    }
+
+    /* Reducimos la columna de la hora para ganar espacio en pantallas estrechas */
+    .col-hora {
+        width: 80px;
+        padding: 20px 10px;
+        font-size: 0.95rem;
+    }
+
+    .col-estado {
+        padding: 10px 12px;
+    }
+
+    /* En móviles ensanchamos la burbuja para que ocupe casi toda la pantalla */
+    .tooltip-paciente {
+        width: 260px;
+        left: -10px;
+        bottom: 130%;
+    }
+
+    .tooltip-paciente::after {
+        left: 40px;
+    }
+}

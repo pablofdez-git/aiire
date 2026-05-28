@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aiire - Acceso Profesionales</title>
+    <link rel="stylesheet" href="../css/index_style.css">
+    <link rel="stylesheet" href="../css/login_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="../js/login_script.js" defer></script>
+</head>
+<body class="body-login">
+
+    <div class="login-contenedor">
+        <!-- Volver a la web principal -->
+        <a href="../index.html" class="btn-volver"><i class="fa-solid fa-arrow-left"></i> Volver a la web</a>
+
+        <div class="login-box">
+            <h1 class="logo-aiire-login">aiire</h1>
+            <h2>Área Interna</h2>
+            <p>Introduce tus credenciales de profesional sanitario</p>
+
+            <form id="form-login">
+                <div class="grupo-campo">
+                    <label for="usuario"><i class="fa-solid fa-user"></i> Usuario o Email</label>
+                    <input type="text" id="usuario" placeholder="Ej: pablo.fisioterapeuta" required autocomplete="username">
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="password"><i class="fa-solid fa-lock"></i> Contraseña</label>
+                    <div class="input-password-wrapper">
+                        <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+                        <button type="button" id="btn-ver-password" aria-label="Mostrar contraseña">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="login-opciones">
+                    <label class="check-recordar">
+                        <input type="checkbox"> Recordar sesión
+                    </label>
+                    <a href="#" class="link-olvido">¿Olvidaste la clave?</a>
+                </div>
+
+                <button type="submit" class="btn-acceder">Iniciar Sesión <i class="fa-solid fa-right-to-bracket"></i></button>
+            </form>
+
+            <div id="mensaje-error" class="mensaje-error-oculto">
+                <i class="fa-solid fa-circle-exclamation"></i> Credenciales incorrectas. Inténtalo de nuevo.
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

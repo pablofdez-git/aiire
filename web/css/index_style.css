@@ -1,0 +1,200 @@
+/* ==========================================================================
+   1. VARIABLES DE COLOR (Paleta real extraída de su feed de IG)
+   ========================================================================= */
+:root {
+    --azul-consciente: #5A767E;
+    --verde-aiire-ig: #434B34;
+    --terracota-suave: #B37160;
+    --crema-letras: #EFECE1;
+    --azul-fondo-claro: #DCE5E7;
+    --verde-fondo-claro: #C2C9BC;
+    --arena-fondo-claro: #D6D2C4;
+    --texto-oscuro-pro: #232921;
+    --acento-dorado-viejo: #C6A296;
+}
+
+/* ==========================================================================
+   2. RESET Y ESTILOS GLOBALES BASE
+   ========================================================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background-color: var(--verde-fondo-claro);
+    color: var(--texto-oscuro-pro);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+   3. CABECERA PREMIUM (Tu barra fija compartida por todas las páginas)
+   ========================================================================= */
+header {
+    background-color: var(--verde-aiire-ig);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: padding 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.4s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   4. TU LOGO CON LETRAS SALTARINAS (Intacto)
+   ========================================================================= */
+.logo-aiire {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 300;
+    font-size: 2.5rem;
+    color: var(--crema-letras);
+    text-transform: lowercase;
+    text-decoration: none;
+    user-select: none;
+}
+
+/* Estado cuando pasamos el ratón: todas alineadas a 0px y cambian a color terracota */
+.logo-aiire.activo span {
+    transform: translateY(0) !important;
+    color: var(--terracota-suave);
+}
+
+/* Transición suave para que el movimiento y el color no den un salto brusco */
+.logo-aiire span {
+    display: inline-block;
+    margin: 0 8px;
+    will-change: transform;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), color 0.4s ease;
+}
+
+.logo-aiire .letra-a { transform: translateY(-8px); }
+.logo-aiire .letra-i1 { transform: translateY(12px); margin-left: -1px; }
+.logo-aiire .letra-i2 { transform: translateY(-20px); margin-left: -1px; }
+.logo-aiire .letra-r { transform: translateY(2px); margin-left: -1px; }
+.logo-aiire .letra-e { transform: translateY(14px); margin-left: -1px; }
+
+
+
+/* ==========================================================================
+   5. BARRA DE NAVEGACIÓN INTERNA
+   ========================================================================= */
+.menu-principal {
+    display: flex;
+    gap: 35px;
+}
+
+.menu-principal a {
+    text-decoration: none;
+    color: var(--crema-letras);
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    position: relative;
+    padding: 6px 0;
+    opacity: 0.75;
+    transition: opacity 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Hueco entre el icono de FontAwesome y el texto */
+}
+
+.menu-principal a i {
+    font-size: 0.95rem;
+}
+
+/* Estado hover elegante */
+.menu-principal a:hover {
+    opacity: 1;
+    color: var(--crema-letras);
+}
+
+/* Clase para marcar la pestaña en la que están metidas actualmente */
+.menu-principal a.active {
+    opacity: 1;
+    font-weight: 500;
+    color: var(--crema-letras);
+}
+
+/* Subrayado sutil animado para la pestaña activa y hovers */
+.menu-principal a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--terracota-suave);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+}
+
+.menu-principal a:hover::after,
+.menu-principal a.active::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* ==========================================================================
+   6. BOTÓN CERRAR SESIÓN
+   ========================================================================= */
+.botones-header .btn-cerrar-sesion {
+    text-decoration: none;
+    color: var(--crema-letras);
+    font-weight: 400;
+    border: 1px solid rgba(239, 236, 225, 0.4);
+    padding: 10px 18px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
+}
+
+.botones-header .btn-cerrar-sesion:hover {
+    background-color: rgba(239, 236, 225, 0.08);
+    border-color: var(--terracota-suave);
+}
+
+/* ==========================================================================
+   7. RESPONSIVE DE LA CABECERA (Se adapta si abren la agenda en el móvil)
+   ========================================================================= */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .header-scroll {
+        padding: 12px 15px !important;
+    }
+
+    .menu-principal {
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .menu-principal a {
+        font-size: 0.95rem;
+    }
+
+    .botones-header {
+        width: 100%;
+        justify-content: center;
+        display: none; /* Escondemos el botón de salir en móvil para limpiar espacio */
+    }
+}

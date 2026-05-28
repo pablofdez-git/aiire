@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aiire - Gestión de Citas</title>
+    <link rel="stylesheet" href="css/index_style.css">
+    <link rel="stylesheet" href="css/formulario_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/index_script.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo-aiire">
+            <span class="letra-a">a</span>
+            <span class="letra-i1">i</span>
+            <span class="letra-i2">i</span>
+            <span class="letra-r">r</span>
+            <span class="letra-e">e</span>
+        </div>
+        <nav class="menu-principal">
+            <a href="index.html" class="active"><i class="fa-solid fa-calendar-plus"></i> Nueva Cita</a>
+            <a href="html/agenda.html"><i class="fa-solid fa-calendar-days"></i> Agenda Diaria</a>
+            <a href="html/historial.html"><i class="fa-solid fa-address-book"></i> Historial Pacientes</a>
+        </nav>
+    </header>
+
+    <main class="contenedor-formulario-cita">
+        <div class="tarjeta-formulario">
+            <div class="form-cabecera">
+                <h2 id="form-titulo">Agendar Nueva Cita</h2>
+                <p id="form-subtitulo">Introduce los datos del paciente para reservar el hueco en la agenda</p>
+                <input type="hidden" id="editando-cita-id" value="">
+
+                <button type="button" id="btn-desplegar-huecos" class="btn-enlace-huecos">
+                    <i class="fa-solid fa-bolt"></i> ¿Buscar un hueco libre rápido hoy?
+                </button>
+
+                <div id="wrapper-buscador-huecos" class="huecos-panel-oculto">
+                    <p class="huecos-instrucciones">Selecciona la franja horaria de preferencia del paciente:</p>
+                    <div class="huecos-filtros-botones">
+                        <button type="button" class="btn-franja" data-franja="manana">Mañana (09-13hs)</button>
+                        <button type="button" class="btn-franja" data-franja="tarde">Tarde (16-20hs)</button>
+                        <button type="button" class="btn-franja" data-franja="todos">Ver Todo el Día</button>
+                    </div>
+                    <div id="lista-huecos-libres" class="grid-huecos-resultado"></div>
+                </div>
+            </div>
+
+            <form id="form-gestion-cita">
+                <div class="form-fila">
+                    <div class="grupo-campo" style="flex: 2;">
+                        <label for="paciente-nombre"><i class="fa-solid fa-user"></i> Nombre y Apellidos</label>
+                        <input type="text" id="paciente-nombre" placeholder="Ej: María García López" required>
+                    </div>
+                    <div class="grupo-campo" style="flex: 1;">
+                        <label for="paciente-dni"><i class="fa-solid fa-id-card"></i> DNI / NIE</label>
+                        <input type="text" id="paciente-dni" placeholder="Ej: 12345678A" required autocomplete="off">
+                    </div>
+                    <div class="grupo-campo" style="flex: 1;">
+                        <label for="paciente-telefono"><i class="fa-solid fa-phone"></i> Teléfono</label>
+                        <input type="tel" id="paciente-telefono" placeholder="Ej: 612345678" required>
+                    </div>
+                </div>
+
+                <div class="form-fila">
+                    <div class="grupo-campo">
+                        <label for="cita-fisio"><i class="fa-solid fa-user-doctor"></i> Asignar Fisioterapeuta</label>
+                        <select id="cita-fisio" required>
+                            <option value="" disabled selected>Selecciona quién atiende...</option>
+                            <option value="maria_rosa">Maria Rosa</option>
+                            <option value="alba_rojo">Alba Rojo</option>
+                        </select>
+                    </div>
+                    <div class="grupo-campo">
+                        <label for="cita-servicio"><i class="fa-solid fa-hand-holding-medical"></i> Tipo de Tratamiento</label>
+                        <select id="cita-servicio" required>
+                            <option value="" disabled selected>Selecciona especialidad...</option>
+                            <option value="Fisioterapia Musculoesquelética">Fisioterapia Musculoesquelética</option>
+                            <option value="Suelo Pélvico">Suelo Pélvico</option>
+                            <option value="Embarazo Activo">Embarazo Activo</option>
+                            <option value="Ejercicio Terapéutico">Ejercicio Terapéutico de Fuerza</option>
+                            <option value="Pilates / Yoga">Pilates / Yoga Vinyasa</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-fila">
+                    <div class="grupo-campo">
+                        <label for="cita-fecha"><i class="fa-solid fa-calendar-day"></i> Fecha</label>
+                        <input type="date" id="cita-fecha" min="" max="" required>
+                    </div>
+                    <div class="grupo-campo">
+                        <label for="cita-hora"><i class="fa-solid fa-clock"></i> Hora del Turno</label>
+                        <input type="time" id="cita-hora" min="09:00" max="21:00" required>
+                    </div>
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="cita-notas"><i class="fa-solid fa-notes-medical"></i> Notas Clínicas / Observaciones (Opcional)</label>
+                    <textarea id="cita-notas" rows="4" placeholder="Apuntar patologías, pagos pendientes, recordatorios..."></textarea>
+                </div>
+
+                <div class="form-botones-accion">
+                    <button type="button" id="btn-cancelar-edicion" class="btn-secundario oculto">Cancelar Edición</button>
+                    <button type="submit" id="btn-guardar-cita" class="btn-principal">Guardar Cita en Agenda <i class="fa-solid fa-bookmark"></i></button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+</body>
+</html>

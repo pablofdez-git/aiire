@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aiire - Fisioterapia y Movimiento</title>
+    <link rel="stylesheet" href="css/index_style.css">
+    <script src="js/index_script.js" defer></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- CABECERA -->
+    <header>
+        <a href="#" class="logo-aiire">
+            <span class="letra-a">a</span>
+            <span class="letra-i1">i</span>
+            <span class="letra-i2">i</span>
+            <span class="letra-r">r</span>
+            <span class="letra-e">e</span>
+        </a>
+
+        <nav class="menu-principal">
+            <a href="#">Inicio</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#filosofia">Filosofía</a>
+            <a href="#cita">Contacto</a>
+        </nav>
+
+        <div class="botones-header">
+            <a href="#cita" class="btn-cita">Pedir Cita</a>
+            <a href="html/login.html" class="btn-intranet">Área Personal 🔒</a>
+        </div>
+    </header>
+
+    <!-- ZONA DE IMPACTO (HERO) -->
+    <section class="hero">
+        <div class="hero-contenedor">
+            <div class="hero-texto">
+                <h2>Una pausa consciente.</h2>
+                <p>Encuentra tu espacio de recuperación. Nos enfocamos en entender el origen de tu dolencia a través de la terapia manual avanzada y el movimiento terapéutico controlado.</p>
+                <a href="#cita" class="btn-hero-cita">Pedir Cita Online</a>
+            </div>
+
+            <div class="hero-imagen contenedor-recorte-ig">
+                <img src="../imagenes/camilla.jpg" alt="Instalaciones de la clínica aiire" class="img-camilla">
+            </div>
+        </div>
+    </section>
+
+    <section id="filosofia" class="filosofia">
+        <div class="filosofia-contenedor">
+            <div class="filosofia-texto">
+                <h2>El arte de escuchar al cuerpo</h2>
+                <p>No creemos en las soluciones exprés ni en los parches temporales. Nuestro objetivo es guiarte en una transición activa hacia un cuerpo sin limitaciones, combinando técnicas clínicas con respiración y readaptación física funcional.</p>
+            </div>
+            <div class="filosofia-imagen">
+                <img src="../imagenes/ejercicioEspalda.jpg" alt="Readaptación y ejercicio terapéutico de espalda">
+            </div>
+        </div>
+    </section>
+
+    <section id="servicios" class="servicios">
+        <div class="servicios-contenedor">
+            <h2>Nuestras Especialidades</h2>
+            <ul class="lista-servicios">
+                <li>Fisioterapia Musculoesquelética</li>
+                <li>Suelo Pélvico (hombre/mujer)</li>
+                <li>Embarazo Activo</li>
+                <li>Ecografía y Valoración Funcional</li>
+                <li>Ejercicio Terapéutico de Fuerza</li>
+                <li>Clases Colectivas (Pilates / Yoga Vinyasa)</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="faq">
+        <div class="faq-contenedor">
+            <h2>Preguntas Frecuentes</h2>
+
+            <details>
+                <summary>¿Cuánto dura cada sesión?</summary>
+                <p>Las sesiones individuales tienen una duración aproximada de 50 a 60 minutos, donde nos dedicamos en exclusiva a tu caso mediante terapia manual y ejercicios.</p>
+            </details>
+
+            <details>
+                <summary>¿Qué debo llevar a mi primera cita?</summary>
+                <p>Es recomendable traer ropa cómoda o deportiva para facilitar la valoración de movilidad, además de informes médicos o pruebas previas si dispones de ellas.</p>
+            </details>
+
+            <details>
+                <summary>¿Con cuánta antelación puedo cancelar?</summary>
+                <p>Puedes modificar o cancelar tu cita de manera gratuita con un mínimo de 24 horas de antelación para poder asignar la hora a otro paciente en espera.</p>
+            </details>
+        </div>
+    </section>
+
+    <section id="cita" class="formulario-seccion">
+        <div class="formulario-doble-columna">
+
+            <div class="contacto-imagen contenedor-recorte-ig">
+                <img src="../imagenes/fachadaExterior.jpg" alt="Fachada exterior de aiire Palencia" class="img-fachada">
+            </div>
+
+            <div class="form-box">
+                <h2>Reserva tu espacio</h2>
+                <p>Rellena tus datos para solicitar una cita. Nos pondremos en contacto contigo de inmediato.</p>
+
+                <form>
+                    <div class="grupo-campo">
+                        <label>Nombre y Apellidos</label>
+                        <input type="text" placeholder="Tu nombre completo" required>
+                    </div>
+
+                    <div class="grupo-campo">
+                        <label>Teléfono de contacto</label>
+                        <input type="tel" placeholder="Ej: 612 345 678" required>
+                    </div>
+
+                    <div class="grupo-campo">
+                        <label>Especialidad necesitada</label>
+                        <select>
+                            <option>Fisioterapia General / Deportiva</option>
+                            <option>Suelo Pélvico</option>
+                            <option>Clases Colectivas</option>
+                        </select>
+                    </div>
+
+                    <div class="grupo-campo">
+                        <label>Fecha sugerida</label>
+                        <input type="date" required>
+                    </div>
+
+                    <button type="submit" class="btn-enviar" onclick="alert('Petición de cita simulada correctamente.'); return false;">Solicitar Disponibilidad</button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-contenedor">
+            <div class="footer-columna">
+                <h3 class="logo-footer">aiire</h3>
+                <p class="footer-eslogan">Fisioterapia avanzada & Salud Consciente.</p>
+            </div>
+
+            <div class="footer-columna">
+                <h4>Contacto</h4>
+                <p><i class="fa-solid fa-phone"></i> +34 979 123 456</p>
+                <p><i class="fa-solid fa-envelope"></i> aiirebienestar@gmail.com</p>
+                <p><i class="fa-solid fa-location-dot"></i> Plaza España, 4 | Palencia</p>
+            </div>
+
+            <div class="footer-columna">
+                <h4>Horario</h4>
+                <p>Lunes a Viernes</p>
+                <p class="horario-resaltado">09:00 - 19:30</p>
+                <p>Sábados y Domingos: Cerrado</p>
+            </div>
+
+            <div class="footer-columna">
+                <h4>Síguenos</h4>
+                <div class="redes-sociales">
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-derechos">
+            <p>© 2026 aiire Fisioterapia. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,189 @@
+/* ==========================================================================
+   1. CONTENEDOR Y BARRA DE BÚSQUEDA
+   ========================================================================= */
+.contenedor-historial {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Envoltorio del buscador */
+.barra-busqueda-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--crema-letras);
+    padding: 20px 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+    gap: 20px;
+}
+
+.caja-busqueda {
+    position: relative;
+    flex: 1;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+}
+
+.buscador-icono {
+    position: absolute;
+    left: 18px;
+    color: var(--azul-consciente);
+    font-size: 1.1rem;
+}
+
+#buscador-pacientes {
+    width: 100%;
+    padding: 14px 16px 14px 50px; /* Espacio izquierdo para que el texto no pise la lupa */
+    border: 1px solid rgba(35, 41, 33, 0.2);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--texto-oscuro-pro);
+    background-color: #FDFDFB;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#buscador-pacientes:focus {
+    border-color: var(--azul-consciente);
+    box-shadow: 0 0 0 3px rgba(90, 118, 126, 0.15);
+}
+
+.contador-pacientes {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--verde-aiire-ig);
+    background-color: var(--verde-fondo-claro);
+    padding: 10px 18px;
+    border-radius: 8px;
+}
+
+/* ==========================================================================
+   2. MAQUETACIÓN DE LA TABLA (ESTILO LIMPIO)
+   ========================================================================= */
+.tabla-historial-wrapper {
+    background-color: var(--crema-letras);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    padding: 10px;
+}
+
+.tabla-historial {
+    width: 100%;
+    border-collapse: collapse; /* Une los bordes de las celdas para que no se vean dobles */
+    text-align: left;
+}
+
+/* Cabecera de la tabla */
+.tabla-historial th {
+    background-color: var(--verde-aiire-ig);
+    color: var(--crema-letras);
+    padding: 18px 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Redondeamos las esquinas superiores de la tabla */
+.tabla-historial th:first-child { border-top-left-radius: 8px; }
+.tabla-historial th:last-child { border-top-right-radius: 8px; }
+
+/* Celdas del cuerpo */
+.tabla-historial td {
+    padding: 20px;
+    border-bottom: 1px solid rgba(67, 75, 52, 0.08);
+    font-size: 0.95rem;
+    vertical-align: top; /* Alinea el texto arriba si una celda es más alta que otra */
+}
+
+.tabla-historial tr:last-child td {
+    border-bottom: none; /* Quitamos el borde a la última fila */
+}
+
+/* Estilos específicos por columnas */
+.td-nombre {
+    font-weight: 600;
+    color: var(--verde-aiire-ig);
+    min-width: 180px;
+}
+
+.td-dni {
+    font-family: monospace; /* Tipografía de ancho fijo, ideal para códigos y DNI */
+    font-size: 1rem !important;
+    color: #555;
+    min-width: 110px;
+}
+
+.td-tel {
+    color: #555;
+    min-width: 110px;
+}
+
+/* Bloque contenedor de las notas clínicas */
+.bloque-nota-historial {
+    background-color: #FDFDFB;
+    padding: 15px 18px;
+    border-radius: 8px;
+    border-left: 3px solid var(--azul-consciente);
+    line-height: 1.6;
+    color: #444;
+    font-weight: 300;
+}
+
+.bloque-nota-historial strong {
+    color: var(--texto-oscuro-pro);
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+/* Mensaje de error si no hay coincidencias */
+.oculto-busqueda {
+    display: none;
+}
+
+#mensaje-no-resultados {
+    text-align: center;
+    padding: 40px 20px;
+    color: #777;
+    font-size: 1.1rem;
+    font-weight: 300;
+}
+
+#mensaje-no-resultados i {
+    display: block;
+    font-size: 2rem;
+    color: var(--terracota-suave);
+    margin-bottom: 12px;
+}
+
+/* ==========================================================================
+   3. RESPONSIVE (Scroll horizontal inteligente para tablas)
+   ========================================================================= */
+@media (max-width: 768px) {
+    .barra-busqueda-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 20px 15px;
+    }
+
+    .contador-pacientes {
+        text-align: center;
+    }
+
+    /* En móviles, para que una tabla gigante no rompa la pantalla,
+       le metemos un scroll horizontal solo a la tabla */
+    .tabla-historial-wrapper {
+        overflow-x: auto;
+    }
+
+    .tabla-historial th, .tabla-historial td {
+        padding: 15px 12px;
+        font-size: 0.9rem;
+    }
+}
