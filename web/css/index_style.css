@@ -35,7 +35,7 @@ body {
 }
 
 /* ==========================================================================
-   3. CABECERA PREMIUM (Tu barra fija compartida por todas las páginas)
+   3. CABECERA PREMIUM (Comportamiento normal, se queda arriba al hacer scroll)
    ========================================================================= */
 header {
     background-color: var(--verde-aiire-ig);
@@ -43,8 +43,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 20px 40px;
-    position: sticky;
-    top: 0;
+    /* Al quitar position: sticky y top: 0, el header se queda fijo en su sitio original y desaparece al bajar */
     z-index: 1000;
     transition: padding 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.4s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
