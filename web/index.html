@@ -43,7 +43,7 @@
                     <div class="huecos-filtros-botones">
                         <button type="button" class="btn-franja" data-franja="manana">Mañana (09-13hs)</button>
                         <button type="button" class="btn-franja" data-franja="tarde">Tarde (16-20hs)</button>
-                        <button type="button" class="btn-franja" data-franja="todos">Ver Todo el Día</button>
+                        <button type="button" class="btn-franja" data-franja="todo">Ver Todo el Día</button>
                     </div>
                     <div id="lista-huecos-libres" class="grid-huecos-resultado"></div>
                 </div>
@@ -58,6 +58,9 @@
                     <div class="grupo-campo" style="flex: 1;">
                         <label for="paciente-dni"><i class="fa-solid fa-id-card"></i> DNI / NIE</label>
                         <input type="text" id="paciente-dni" placeholder="Ej: 12345678A" required autocomplete="off">
+                        <button type="button" id="btn-editar-paciente-existe" class="oculto" style="background:none; border:none; color:var(--azul-consciente); font-size:0.8rem; text-align:left; cursor:pointer; text-decoration:underline; margin-top:5px;">
+                            <i class="fa-solid fa-user-gear"></i> Modificar datos de ficha
+                        </button>
                     </div>
                     <div class="grupo-campo" style="flex: 1;">
                         <label for="paciente-telefono"><i class="fa-solid fa-phone"></i> Teléfono</label>

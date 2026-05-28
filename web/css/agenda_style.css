@@ -412,6 +412,44 @@
 }
 
 /* ==========================================================================
+   BOTÓN FLOTANTE VOLVER ARRIBA (SCROLL TO TOP)
+   ========================================================================= */
+.btn-scroll-top {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background-color: var(--verde-aiire-ig);
+    color: var(--crema-letras);
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 2000; /* Por encima de las filas de la agenda */
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.btn-scroll-top:hover {
+    background-color: var(--texto-oscuro-pro);
+    transform: translateY(-3px);
+}
+
+/* En móviles lo hacemos un pelín más grande para que sea fácil de pulsar con el pulgar */
+@media (max-width: 768px) {
+    .btn-scroll-top {
+        bottom: 20px;
+        right: 20px;
+        width: 48px;
+        height: 48px;
+    }
+}
+
+/* ==========================================================================
    5. RESPONSIVE ADAPTADO PARA MÓVILES
    ========================================================================= */
 @media (max-width: 768px) {

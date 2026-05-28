@@ -47,6 +47,67 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================================================
+    // ESCUDO ANTI-INCONSISTENCIA: AUTOCOMPLETADO Y BLOQUEO POR DNI
+    // ==========================================================================
+    const inputDni = document.getElementById('paciente-dni');
+    const inputNombre = document.getElementById('paciente-nombre');
+    const inputTelefono = document.getElementById('paciente-telefono');
+    const btnEditarPaciente = document.getElementById('btn-editar-paciente-existe');
+
+    if (inputDni) {
+        // El evento 'change' se dispara cuando el usuario sale del input (pierde el foco) o pulsa Intro
+        inputDni.addEventListener('change', async () => {
+            const dniBuscar = inputDni.value.trim().toUpperCase();
+            if (dniBuscar.length < 5) return; // Evitamos peticiones absurdas con 3 letras
+
+            try {
+                // Buscamos si el paciente ya tiene ficha en Supabase
+                const { data: paciente, error } = await supabaseClient
+                    .from('pacientes')
+                    .select('nombre, pr_apellido, sg_apellido, telefono')
+                    .eq('dni', dniBuscar)
+                    .maybeSingle();
+
+                if (error) throw error;
+
+                if (paciente) {
+                    // ¡Existe! Rellenamos los campos combinando el nombre completo
+                    const apellido2 = paciente.sg_apellido ? ` ${paciente.sg_apellido}` : '';
+                    inputNombre.value = `${paciente.nombre} ${paciente.pr_apellido}${apellido2}`.trim();
+                    inputTelefono.value = paciente.telefono;
+
+                    // Bloqueamos para evitar erratas accidentales
+                    inputNombre.readOnly = true;
+                    inputTelefono.readOnly = true;
+
+                    // Mostramos el botón de auxilio por si quieren editar al paciente
+                    if (btnEditarPaciente) btnEditarPaciente.classList.remove('oculto');
+
+                    console.log(`🎯 Paciente veterano detectado: ${inputNombre.value}`);
+                } else {
+                    // No existe, es nuevo. Aseguramos que los campos estén limpios y usables
+                    inputNombre.readOnly = false;
+                    inputTelefono.readOnly = false;
+                    if (btnEditarPaciente) btnEditarPaciente.classList.add('oculto');
+                }
+
+            } catch (err) {
+                console.error("Error al verificar el DNI:", err);
+            }
+        });
+    }
+
+    // Lógica del botón de auxilio: si hacen click, les dejamos editar el nombre/teléfono
+    if (btnEditarPaciente) {
+        btnEditarPaciente.addEventListener('click', () => {
+            inputNombre.readOnly = false;
+            inputTelefono.readOnly = false;
+            inputNombre.focus();
+            alert("⚠️ Estás editando la ficha global del paciente. Al guardar la cita, se actualizarán sus datos en el historial.");
+        });
+    }
+
+    // ==========================================================================
     // EVENTO FORMULARIO: GUARDAR CITA (Solo si el formulario existe en pantalla)
     // ==========================================================================
     const formulario = document.getElementById('form-gestion-cita');
@@ -99,6 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (errorBusqueda) throw errorBusqueda;
 
                 if (!pacienteExistente) {
+                    // Si no existe, lo insertamos normal
                     const { error: errorInsertPaciente } = await supabaseClient
                         .from('pacientes')
                         .insert([{
@@ -112,6 +174,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (errorInsertPaciente) throw errorInsertPaciente;
                     console.log(`✅ Nuevo paciente [${dniInput}] guardado en la nube.`);
+                } else {
+                    // ¡REPARACIÓN AQUÍ!: Si ya existía, hacemos un UPDATE por si el usuario
+                    // ha modificado el teléfono o corregido el nombre al darle a editar
+                    const { error: errorUpdatePaciente } = await supabaseClient
+                        .from('pacientes')
+                        .update({
+                            nombre: nombre,
+                            pr_apellido: pr_apellido,
+                            sg_apellido: sg_apellido,
+                            telefono: telefono
+                            // Las notas clínicas de la ficha no las pisamos para no borrar su historial médico antiguo
+                        })
+                        .eq('dni', dniInput);
+
+                    if (errorUpdatePaciente) throw errorUpdatePaciente;
+                    console.log(`🔄 Ficha del paciente [${dniInput}] actualizada en el historial.`);
                 }
 
                 // --- ESCUDO B: CITAS ---
@@ -130,6 +208,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 alert(`¡Cita guardada con éxito en la nube para ${nombreCompleto}!`);
                 formulario.reset();
+                // Reseteamos los estados de bloqueo del formulario
+                inputNombre.readOnly = false;
+                inputTelefono.readOnly = false;
+                if (btnEditarPaciente) btnEditarPaciente.classList.add('oculto');
 
             } catch (error) {
                 console.error("Error crítico en Supabase:", error);
@@ -155,28 +237,74 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         botonesFranja.forEach(boton => {
-            boton.addEventListener('click', () => {
+            // Convertimos el callback en async para poder usar await con Supabase
+            boton.addEventListener('click', async () => {
+                const fechaSeleccionada = inputFecha ? inputFecha.value : '';
+
+                if (!fechaSeleccionada) {
+                    alert("⚠️ Por favor, selecciona primero una fecha en el calendario para buscar huecos libres.");
+                    return;
+                }
+
                 botonesFranja.forEach(b => b.classList.remove('activo'));
                 boton.classList.add('activo');
 
-                const franja = boton.getAttribute('data-franja');
-                let turnosFiltrados = (franja === 'manana') ? turnosTotales.filter(t => t < "14:00") :
-                                      (franja === 'tarde') ? turnosTotales.filter(t => t >= "14:00") : [...turnosTotales];
+                listaHuecosContenedor.innerHTML = '<p style="font-size:0.9rem; color:#666;"><i class="fa-solid fa-spinner fa-spin"></i> Consultando disponibilidad...</p>';
 
-                listaHuecosContenedor.innerHTML = '';
-                turnosFiltrados.forEach(hora => {
-                    const pildora = document.createElement('button');
-                    pildora.type = 'button';
-                    pildora.className = 'pildora-hora-libre';
-                    pildora.innerHTML = `<i class="fa-regular fa-clock"></i> ${hora}`;
-                    pildora.addEventListener('click', () => {
-                        const inputHoraForm = document.getElementById('cita-hora');
-                        if (inputHoraForm) inputHoraForm.value = hora;
-                        panelHuecos.classList.remove('abierto');
+                try {
+                    // 1. Pedimos a Supabase las citas de esa fecha concreta
+                    const { data: citasDelDia, error } = await supabaseClient
+                        .from('citas')
+                        .select('fecha_hora, id_profesional')
+                        .gte('fecha_hora', `${fechaSeleccionada} 00:00:00`)
+                        .lte('fecha_hora', `${fechaSeleccionada} 23:59:59`);
+
+                    if (error) throw error;
+
+                    // 2. Mapeamos cuántas citas hay por cada hora.
+                    // Si una hora tiene 2 citas, significa que tanto María Rosa como Alba están ocupadas (Lleno total)
+                    const ocupacionPorHora = {};
+                    citasDelDia.forEach(c => {
+                        const horaCita = c.fecha_hora.split(' ')[1].substring(0, 5); // Extrae "HH:MM"
+                        ocupacionPorHora[horaCita] = (ocupacionPorHora[horaCita] || 0) + 1;
                     });
-                    listaHuecosContenedor.appendChild(pildora);
-                });
+
+                    // 3. Filtramos la franja horaria seleccionada
+                    const franja = boton.getAttribute('data-franja');
+                    let turnosFiltrados = (franja === 'manana') ? turnosTotales.filter(t => t < "14:00") :
+                                          (franja === 'tarde') ? turnosTotales.filter(t => t >= "14:00") : [...turnosTotales];
+
+                    // 4. Excluimos las horas donde YA NO QUEDEN fisioterapeutas libres (ocupación >= 2)
+                    let turnosLibresReales = turnosFiltrados.filter(hora => {
+                        return (ocupacionPorHora[hora] || 0) < 2;
+                    });
+
+                    listaHuecosContenedor.innerHTML = '';
+
+                    if (turnosLibresReales.length === 0) {
+                        listaHuecosContenedor.innerHTML = '<p style="font-size:0.9rem; color:var(--terracota-suave); font-style:italic;"><i class="fa-solid fa-calendar-xmark"></i> No quedan huecos libres para esta franja.</p>';
+                        return;
+                    }
+
+                    // 5. Pintamos las píldoras reales y limpias
+                    turnosLibresReales.forEach(hora => {
+                        const pildora = document.createElement('button');
+                        pildora.type = 'button';
+                        pildora.className = 'pildora-hora-libre';
+                        pildora.innerHTML = `<i class="fa-regular fa-clock"></i> ${hora}`;
+                        pildora.addEventListener('click', () => {
+                            const inputHoraForm = document.getElementById('cita-hora');
+                            if (inputHoraForm) inputHoraForm.value = hora;
+                            panelHuecos.classList.remove('abierto');
+                        });
+                        listaHuecosContenedor.appendChild(pildora);
+                    });
+
+                } catch (err) {
+                    console.error("Error al calcular huecos libres:", err);
+                    listaHuecosContenedor.innerHTML = '<p style="font-size:0.9rem; color:red;">Error al cargar la disponibilidad.</p>';
+                }
             });
-        });
+        });;
     }
 });
