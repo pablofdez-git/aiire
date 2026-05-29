@@ -189,6 +189,29 @@
     font-weight: 600;
 }
 
+/* Contenedor relativo para poder posicionar el ojo dentro */
+.contenedor-password-ojo {
+    position: relative;
+}
+
+/* Espacio a la derecha del input para que el texto de la contraseña no tape el ojo */
+.contenedor-password-ojo input {
+    padding-right: 40px;
+}
+
+/* Posicionamiento exacto del ojo de la contraseña */
+#toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 38px;
+    cursor: pointer;
+    color: #666;
+}
+
+#toggle-password:hover {
+    color: var(--verde-aiire-ig, #414d3b); /* Un pequeño efecto visual al pasar el ratón */
+}
+
 /* ==========================================================================
    RESPONSIVE DESIGN: ADAPTACIÓN PARA MÓVILES Y TABLETS
    ========================================================================== */

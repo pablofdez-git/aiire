@@ -135,12 +135,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================================
     // 3. LOGICA DE REGISTRO DE NUEVOS USUARIOS
     // ==========================================================================
+    // 👁️ OJO: Lógica para ver/ocultar la contraseña (Sujeta al botón sin estilos inline)
+    const togglePassword = document.getElementById('toggle-password');
+    const passwordInput = document.getElementById('reg-password');
+
+    if (togglePassword && passwordInput) {
+        togglePassword.addEventListener('click', () => {
+            // Alternamos el tipo de input entre 'password' y 'text'
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+
+            // Cambiamos el icono del ojo (abierto / tachado) con FontAwesome
+            togglePassword.classList.toggle('fa-eye');
+            togglePassword.classList.toggle('fa-eye-slash');
+        });
+    }
     if (formRegistro) {
         formRegistro.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const email = document.getElementById('reg-email').value.trim();
-            const password = document.getElementById('reg-password').value;
+            const password = passwordInput ? passwordInput.value : '';
             const roleElegido = document.getElementById('reg-role').value;
 
             try {
@@ -160,6 +175,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert(`🎉 Cuenta creada en la nube para: ${email} con rol [${roleElegido}].`);
                 formRegistro.reset();
 
+                // 🔄 Devolvemos el input a modo oculto por seguridad tras el reset
+                if (passwordInput) passwordInput.setAttribute('type', 'password');
+                if (togglePassword) {
+                    togglePassword.classList.add('fa-eye');
+                    togglePassword.classList.remove('fa-eye-slash');
+                }
+
                 // Refrescamos todo al instante
                 calcularEstadisticas();
                 cargarMonitorAuditoriaReal();
@@ -167,6 +189,11 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (err) {
                 console.error("Error al registrar:", err.message);
                 alert("Error al dar de alta: " + err.message);
+
+                if (passwordInput){
+                    passwordInput.value = "";
+                    passwordInput.focus();
+                }
             }
         });
     }
