@@ -1,0 +1,95 @@
+.contenedor-login {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--verde-fondo-claro);
+    padding: 20px;
+}
+
+.tarjeta-login {
+    background-color: var(--crema-letras);
+    width: 100%;
+    max-width: 420px;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+.login-logo-wrapper {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.login-logo-wrapper p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.grupo-input-login {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.grupo-input-login label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--texto-oscuro-pro);
+}
+
+.grupo-input-login label i {
+    color: var(--azul-consciente);
+}
+
+.grupo-input-login input {
+    padding: 12px 14px;
+    border: 1px solid rgba(35, 41, 33, 0.2);
+    border-radius: 8px;
+    background-color: #FDFDFB;
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.grupo-input-login input:focus {
+    border-color: var(--azul-consciente);
+}
+
+.btn-entrar-login {
+    width: 100%;
+    background-color: var(--verde-aiire-ig);
+    color: var(--crema-letras);
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+    margin-top: 25px;
+}
+
+.btn-entrar-login:hover {
+    background-color: var(--texto-oscuro-pro);
+}
+
+.mensaje-error-login {
+    background-color: rgba(179, 113, 96, 0.15);
+    color: #7d483b;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.85rem;
+    margin-top: 15px;
+    font-weight: 500;
+}

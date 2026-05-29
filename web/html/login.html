@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aiire - Acceso Interno</title>
+    <link rel="stylesheet" href="../css/index_style.css">
+    <link rel="stylesheet" href="../css/login_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/login_script.js" defer></script>
+</head>
+<body>
+
+    <div class="contenedor-login">
+        <div class="tarjeta-login">
+            <div class="login-logo-wrapper">
+                <div class="logo-aiire">
+                    <span class="letra-a">a</span>
+                    <span class="letra-i1">i</span>
+                    <span class="letra-i2">i</span>
+                    <span class="letra-r">r</span>
+                    <span class="letra-e">e</span>
+                </div>
+                <p>Gestión Clínica Privada</p>
+            </div>
+
+            <form id="form-login">
+                <div class="grupo-input-login">
+                    <label for="login-email"><i class="fa-solid fa-envelope"></i> Correo Electrónico</label>
+                    <input type="email" id="login-email" required>
+                </div>
+
+                <div class="grupo-input-login">
+                    <label for="login-password"><i class="fa-solid fa-lock"></i> Contraseña</label>
+                    <input type="password" id="login-password" required>
+                </div>
+
+                <button type="submit" class="btn-entrar-login">
+                    Iniciar Sesión <i class="fa-solid fa-right-to-bracket"></i>
+                </button>
+            </form>
+            <div id="login-error-msg" class="mensaje-error-login oculto"></div>
+        </div>
+    </div>
+
+</body>
+</html>
