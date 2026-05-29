@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aiire - Panel de Administración</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../js/auth_guard.js"></script>
+
+    <link rel="stylesheet" href="../css/index_style.css">
+    <link rel="stylesheet" href="../css/agenda_style.css">
+    <link rel="stylesheet" href="../css/admin_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script src="../js/admin_script.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo-aiire">
+            <span class="letra-a">a</span>
+            <span class="letra-i1">i</span>
+            <span class="letra-i2">i</span>
+            <span class="letra-r">r</span>
+            <span class="letra-e">e</span>
+        </div>
+        <nav class="menu-principal">
+            <a href="../index.html"><i class="fa-solid fa-calendar-plus"></i> Nueva Cita</a>
+            <a href="agenda.html"><i class="fa-solid fa-calendar-days"></i> Agenda Diaria</a>
+            <a href="html/historial.html"><i class="fa-solid fa-address-book"></i> Historial Pacientes</a>
+            <a href="admin.html" class="active" id="nav-admin"><i class="fa-solid fa-user-gear"></i> Administración</a>
+        </nav>
+    </header>
+
+    <main class="contenedor-admin-global">
+
+        <h2 class="titulo-seccion-admin"><i class="fa-solid fa-chart-pie"></i> Cuadro de Mandos Express</h2>
+        <div class="grid-tarjetas-stats">
+            <div class="tarjeta-stat-item">
+                <i class="fa-solid fa-users icon-stat-pacientes"></i>
+                <h3>Total Pacientes</h3>
+                <p id="stat-total-pacientes">0</p>
+            </div>
+            <div class="tarjeta-stat-item">
+                <i class="fa-solid fa-calendar-check icon-stat-citas"></i>
+                <h3>Citas Esta Semana</h3>
+                <p id="stat-citas-semana">0</p>
+            </div>
+            <div class="tarjeta-stat-item">
+                <i class="fa-solid fa-kit-medical icon-stat-estrella"></i>
+                <h3>Servicio Más Buscado</h3>
+                <p id="stat-servicio-estrella">Calculando...</p>
+            </div>
+        </div>
+
+        <div class="grid-bloques-gestion">
+
+            <div class="bloque-admin-card">
+                <h3 class="subtitulo-bloque"><i class="fa-solid fa-user-plus"></i> Registrar Personal Técnico</h3>
+
+                <form id="form-registro-personal">
+                    <div class="grupo-formulario-admin">
+                        <label>Correo Electrónico Corporativo</label>
+                        <input type="email" id="reg-email" placeholder="ejemplo@aiire.com" required>
+                    </div>
+                    <div class="grupo-formulario-admin">
+                        <label>Contraseña de Acceso</label>
+                        <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" required>
+                    </div>
+                    <div class="grupo-formulario-admin">
+                        <label>Rol Asignado en la Base de Datos</label>
+                        <select id="reg-role" required>
+                            <option value="fisio">Fisioterapeuta Oficial (Acceso a Agenda e Historial)</option>
+                            <option value="admin">Administrador / Dueño (Acceso Total a este Panel)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-alta-servidor"><i class="fa-solid fa-shield-halved"></i> Dar de Alta en Servidor</button>
+                </form>
+            </div>
+
+            <div class="bloque-admin-card">
+                <h3 class="subtitulo-bloque"><i class="fa-solid fa-receipt"></i> Monitor de Actividad (Últimas Citas)</h3>
+
+                <div class="contenedor-feed-auditoria">
+                    <ul id="lista-auditoria">
+                        <li class="log-vacio"><i class="fa-solid fa-spinner fa-spin"></i> Conectando con el registro de operaciones...</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

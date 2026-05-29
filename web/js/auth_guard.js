@@ -26,4 +26,26 @@
         console.log("🔓 Ya estás logueado. Redirigiendo al inicio...");
         window.location.href = "../index.html";
     }
+
+    // 🔥 CONTROL DE VISIBILIDAD DE LA PESTAÑA ADMIN EN EL MENÚ PRESET
+    // Ejecutamos este chequeo cuando el DOM ya se ha pintado para poder manipular el menú
+    window.addEventListener('DOMContentLoaded', () => {
+        const botonNavAdmin = document.getElementById('nav-admin');
+        const rolUsuario = user.user_metadata?.role;
+
+        // Si el usuario registrado NO es un administrador del sistema:
+        if (rolUsuario !== 'admin') {
+            // 1. Si está intentando entrar físicamente a la página admin.html, le cortamos el paso
+            if (window.location.pathname.includes('admin.html')) {
+                alert("⛔ Acceso denegado: No tienes credenciales de administrador para gestionar el personal.");
+                // Si está dentro de html/ sube para ir al index, si no se queda en index
+                window.location.href = window.location.pathname.includes('/html/') ? "agenda.html" : "html/agenda.html";
+            }
+            // 2. Si está en cualquier otra pantalla, le escondemos el botón del menú para que ni lo vea
+            if (botonNavAdmin) {
+                botonNavAdmin.style.display = 'none';
+            }
+        }
+    });
+
 })();
