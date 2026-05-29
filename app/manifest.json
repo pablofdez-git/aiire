@@ -3,15 +3,20 @@
   "name": "aiire - Gestión Clínica",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/3063/3063176.png",
+      "src": "imagenes/logoAiireVerde.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
+    },
+    {
+      "src": "imagenes/logoAiireVerde.png",
+      "type": "image/png",
+      "sizes": "192x192"
     }
   ],
-  "start_url": "/html/login.html",
-  "background_color": "#f8f7f4",
-  "theme_color": "#5a767e",
+  "start_url": "html/login.html",
+  "background_color": "#414d3b",
+  "theme_color": "#414d3b",
   "display": "standalone",
   "orientation": "portrait"
 }
