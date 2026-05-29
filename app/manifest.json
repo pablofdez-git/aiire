@@ -3,21 +3,21 @@
   "name": "aiire - Gestión Clínica",
   "icons": [
     {
-      "src": "img/logoAiireVerde-letras.png",
+      "src": "imagenes/logoAiireVerde.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any"
     },
     {
-      "src": "img/logoAiireVerde-letras.png",
+      "src": "imagenes/logoAiireVerde.png",
       "type": "image/png",
       "sizes": "192x192",
-      "purpose": "any"
+      "purpose":"any"
     }
   ],
   "start_url": "html/login.html",
-  "background_color": "#414d3b",
-  "theme_color": "#414d3b",
+  "background_color": "#4b5644",
+  "theme_color": "#4b5644",
   "display": "standalone",
   "orientation": "portrait"
 }
