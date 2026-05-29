@@ -11,6 +11,16 @@
     <script src="../js/auth_guard.js"></script>
     <script src="../js/index_script.js" defer></script>
     <script src="../js/historial_script.js" defer></script>
+    <link rel="manifest" href="../manifest.json">
+
+    <script>
+        // Registramos el Service Worker si el navegador es compatible
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('../sw.js')
+                .then(reg => console.log('🎉 PWA registrada correctamente', reg))
+                .catch(err => console.error('❌ Error al registrar PWA', err));
+        }
+    </script>
 </head>
 <body>
 

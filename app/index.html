@@ -10,6 +10,16 @@
     <link rel="stylesheet" href="css/index_style.css">
     <link rel="stylesheet" href="css/formulario_style.css">
     <script src="js/index_script.js" defer></script>
+    <link rel="manifest" href="manifest.json">
+
+    <script>
+        // Registramos el Service Worker si el navegador es compatible
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('../sw.js')
+                .then(reg => console.log('🎉 PWA registrada correctamente', reg))
+                .catch(err => console.error('❌ Error al registrar PWA', err));
+        }
+    </script>
 </head>
 <body>
 

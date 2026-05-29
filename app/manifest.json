@@ -1,0 +1,17 @@
+{
+  "short_name": "aiire App",
+  "name": "aiire - Gestión Clínica",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3063/3063176.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/html/login.html",
+  "background_color": "#f8f7f4",
+  "theme_color": "#5a767e",
+  "display": "standalone",
+  "orientation": "portrait"
+}
