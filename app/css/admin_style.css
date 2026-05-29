@@ -194,29 +194,62 @@
    ========================================================================== */
 
 @media (max-width: 850px) {
-    /* 1. Forzamos a que el formulario y la auditoría se pongan uno debajo de otro */
+    /* 1. Evitamos que el header ensanche la pantalla hacia la derecha */
+    header {
+        flex-direction: column !important;
+        padding: 15px 10px !important;
+        gap: 15px !important;
+        text-align: center !important;
+    }
+
+    /* 2. Hacemos que el menú de navegación se apile o distribuya limpio en móvil */
+    .menu-principal {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        width: 100% !important;
+    }
+
+    .menu-principal a {
+        font-size: 0.85rem !important; /* Letra un pelo más pequeña para que quepa */
+        padding: 8px 12px !important;
+    }
+
+    /* 3. Forzamos a que el formulario y la auditoría se pongan uno debajo de otro */
     .grid-bloques-gestion {
+        display: grid !important;
         grid-template-columns: 1fr !important;
-        gap: 20px;
+        gap: 20px !important;
+        width: 100% !important;
     }
 
-    /* 2. Reducimos el margen general para aprovechar el espacio de la pantalla */
+    /* 4. Reducimos el margen general para aprovechar el espacio de la pantalla */
     .contenedor-admin-global {
-        margin: 20px auto;
-        padding: 0 12px;
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 20px auto !important;
+        padding: 0 12px !important;
+        box-sizing: border-box !important;
     }
 
-    /* 3. Ajustamos las tarjetas de estadísticas para que no queden gigantes */
+    /* 5. Ajustamos las tarjetas de estadísticas para que entren en una columna o dos */
+    .grid-tarjetas-stats {
+        grid-template-columns: 1fr !important; /* Una por fila en móviles */
+        gap: 15px !important;
+    }
+
     .tarjeta-stat-item {
-        padding: 15px;
+        padding: 15px !important;
     }
 
     .tarjeta-stat-item p {
-        font-size: 2rem; /* Números un pelo más pequeños en móvil */
+        font-size: 2rem !important;
     }
 
-    /* 4. Le damos un poco más de aire a las tarjetas de gestión */
+    /* 6. Le damos un poco más de aire a las tarjetas de gestión */
     .bloque-admin-card {
-        padding: 20px;
+        padding: 20px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
     }
 }
