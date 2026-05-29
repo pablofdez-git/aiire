@@ -1,95 +1,168 @@
+/* Contenedor principal ocupando toda la pantalla */
 .contenedor-login {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--verde-fondo-claro);
+    background-color: #b9c3b6; /* El tono verde oliva suave de fondo */
     padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Tarjeta de Login estilizada */
 .tarjeta-login {
-    background-color: var(--crema-letras);
+    background-color: #fdfdfb; /* El color crema limpio */
     width: 100%;
-    max-width: 420px;
-    padding: 40px 30px;
-    border-radius: 16px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    max-width: 440px;
+    padding: 45px 35px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
 }
 
-.login-logo-wrapper {
+/* Cabecera del Login */
+.login-header {
     text-align: center;
     margin-bottom: 35px;
 }
 
-.login-logo-wrapper p {
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+.login-brand {
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: #414d3b; /* Tu verde oscuro corporativo */
+    margin: 0;
+    letter-spacing: -1px;
 }
 
+.login-subtitle {
+    font-size: 0.95rem;
+    color: #707a6e;
+    margin-top: 5px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+/* Bloques de Input */
 .grupo-input-login {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 .grupo-input-login label {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--texto-oscuro-pro);
+    margin-bottom: 10px;
+    color: #414d3b;
 }
 
 .grupo-input-login label i {
-    color: var(--azul-consciente);
+    color: #5a767e; /* El azul consciente para los iconos */
+    margin-right: 4px;
 }
 
+/* Inputs más altos y elegantes */
 .grupo-input-login input {
-    padding: 12px 14px;
-    border: 1px solid rgba(35, 41, 33, 0.2);
-    border-radius: 8px;
-    background-color: #FDFDFB;
+    padding: 14px 16px;
+    border: 1px solid rgba(65, 77, 59, 0.25);
+    border-radius: 10px;
+    background-color: #ffffff;
     font-family: inherit;
-    font-size: 0.95rem;
+    font-size: 1rem;
+    color: #333;
     outline: none;
-    transition: border-color 0.3s;
+    transition: all 0.3s ease;
 }
 
 .grupo-input-login input:focus {
-    border-color: var(--azul-consciente);
+    border-color: #414d3b;
+    box-shadow: 0 0 0 4px rgba(65, 77, 59, 0.1);
 }
 
+/* Ajuste del contenedor relativo del ojo */
+.contenedor-password-ojo {
+    position: relative;
+}
+
+.contenedor-password-ojo input {
+    padding-right: 45px;
+}
+
+/* Posicionamiento del ojo centrado verticalmente con respecto al input */
+#toggle-password {
+    position: absolute;
+    right: 16px;
+    bottom: 15px; /* Lo bajamos para que quede centrado en el input de 14px de padding */
+    cursor: pointer;
+    color: #707a6e;
+    font-size: 1.1rem;
+    transition: color 0.2s;
+}
+
+#toggle-password:hover {
+    color: #414d3b;
+}
+
+/* Botón Premium */
 .btn-entrar-login {
     width: 100%;
-    background-color: var(--verde-aiire-ig);
-    color: var(--crema-letras);
+    background-color: #414d3b;
+    color: #fdfdfb;
     border: none;
-    padding: 14px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
+    padding: 16px;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    font-weight: 600;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 8px;
-    transition: background-color 0.3s;
-    margin-top: 25px;
+    gap: 10px;
+    transition: all 0.3s ease;
+    margin-top: 30px;
+    box-shadow: 0 8px 20px rgba(65, 77, 59, 0.2);
 }
 
 .btn-entrar-login:hover {
-    background-color: var(--texto-oscuro-pro);
+    background-color: #2b3327;
+    transform: translateY(-1px);
+    box-shadow: 0 12px 24px rgba(65, 77, 59, 0.3);
 }
 
-.mensaje-error-login {
-    background-color: rgba(179, 113, 96, 0.15);
-    color: #7d483b;
-    padding: 10px;
-    border-radius: 6px;
-    text-align: center;
-    font-size: 0.85rem;
-    margin-top: 15px;
-    font-weight: 500;
+/* Contenedor del logo en el Login */
+.login-brand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px; /* Un pelín de separación entre letras */
+    font-size: 3.5rem; /* Un tamaño hermoso para que luzca en el centro */
+    font-weight: 300;
+    margin-bottom: 10px;
+    height: 70px; /* Altura fija para que los desplazamientos no pisen el subtítulo */
+}
+
+/* 📐 DESALINEACIÓN ESTÁTICA DE LAS LETRAS (Una a cada altura) */
+.login-brand .letra-a {
+    transform: translateY(0px);
+    color: #414d3b;
+}
+
+.login-brand .letra-i1 {
+    transform: translateY(-12px); /* Sube un poco */
+    color: #414d3b;
+}
+
+.login-brand .letra-i2 {
+    transform: translateY(8px); /* Baja un poco */
+    color: #414d3b;
+}
+
+.login-brand .letra-r {
+    transform: translateY(-4px); /* Sube un pelín */
+    color: #414d3b;
+}
+
+.login-brand .letra-e {
+    transform: translateY(10px); /* Baja otro poco */
+    color: #414d3b;
 }

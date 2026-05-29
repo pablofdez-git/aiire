@@ -24,35 +24,36 @@
 
     <div class="contenedor-login">
         <div class="tarjeta-login">
-            <div class="login-logo-wrapper">
-                <div class="logo-aiire">
+
+            <div class="login-header">
+                <div class="logo-aiire login-brand">
                     <span class="letra-a">a</span>
                     <span class="letra-i1">i</span>
                     <span class="letra-i2">i</span>
                     <span class="letra-r">r</span>
                     <span class="letra-e">e</span>
                 </div>
-                <p>Gestión Clínica Privada</p>
+                <p class="login-subtitle">Gestión Clínica Fisioterapéutica</p>
             </div>
 
-            <form id="form-login">
-                <div class="grupo-formulario-admin contenedor-password-ojo">
-                    <label>Contraseña de Acceso</label>
+            <form id="form-login-sistema">
+                <div class="grupo-input-login">
+                    <label for="reg-email"><i class="fa-solid fa-envelope"></i> Correo Electrónico</label>
+                    <input type="email" id="reg-email" placeholder="ejemplo@aiire.com" required>
+                </div>
+
+                <div class="grupo-input-login contenedor-password-ojo">
+                    <label for="reg-password"><i class="fa-solid fa-lock"></i> Contraseña de Acceso</label>
                     <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" required>
-                    <!-- Icono del ojo limpio -->
                     <i class="fa-solid fa-eye" id="toggle-password"></i>
                 </div>
 
-                <div class="grupo-input-login">
-                    <label for="login-password"><i class="fa-solid fa-lock"></i> Contraseña</label>
-                    <input type="password" id="login-password" required>
-                </div>
-
                 <button type="submit" class="btn-entrar-login">
-                    Iniciar Sesión <i class="fa-solid fa-right-to-bracket"></i>
+                    <span>Iniciar Sesión</span>
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
                 </button>
             </form>
-            <div id="login-error-msg" class="mensaje-error-login oculto"></div>
+
         </div>
     </div>
 
