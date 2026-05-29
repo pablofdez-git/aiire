@@ -55,6 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnEditarPaciente = document.getElementById('btn-editar-paciente-existe');
 
     if (inputDni) {
+
+        inputDni.addEventListener('input', () => {
+                inputDni.value = inputDni.value.toUpperCase().replace(/[\s-]/g, '');
+        });
+
         // El evento 'change' se dispara cuando el usuario sale del input (pierde el foco) o pulsa Intro
         inputDni.addEventListener('change', async () => {
             const dniBuscar = inputDni.value.trim().toUpperCase();
@@ -217,6 +222,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Error crítico en Supabase:", error);
                 alert("Hubo un error al conectar con la base de datos: " + error.message);
             }
+        });
+    }
+
+    // ==========================================================================
+    // BOTÓN DE LIMPIAR FORMULARIO (OPTIMIZADO PARA MÓVIL)
+    // ==========================================================================
+    const btnLimpiar = document.getElementById('btn-cancelar-edicion');
+
+    if (btnLimpiar && formulario) {
+        btnLimpiar.addEventListener('click', () => {
+            // 1. Resetea todos los inputs nativos (fecha, hora, selectores...)
+            formulario.reset();
+
+            // 2. Devuelve los campos bloqueados a su estado original transitable
+            if (inputNombre) inputNombre.readOnly = false;
+            if (inputTelefono) inputTelefono.readOnly = false;
+
+            // 3. Esconde el botón de modificar ficha si se había quedado visible
+            if (btnEditarPaciente) btnEditarPaciente.classList.add('oculto');
+
+            console.log("🧹 Formulario reseteado por el usuario.");
         });
     }
 

@@ -106,8 +106,16 @@
                     <textarea id="cita-notas" rows="4" placeholder="Apuntar patologías, pagos pendientes, recordatorios..."></textarea>
                 </div>
 
+                <div class="grupo-campo" style="flex-direction: row; align-items: center; gap: 10px; margin-top: 10px; margin-bottom: 25px;">
+                    <input type="checkbox" id="paciente-rgpd" required style="width: auto; cursor: pointer;">
+                    <label for="paciente-rgpd" style="margin-bottom: 0; font-size: 0.85rem; color: #555; cursor: pointer;">
+                        <i class="fa-solid fa-user-shield" style="color: var(--verde-aiire-ig);"></i> Confirmo que el paciente ha firmado el consentimiento de RGPD de la clínica.
+                    </label>
+                </div>
+
                 <div class="form-botones-accion">
-                    <button type="button" id="btn-cancelar-edicion" class="btn-secundario oculto">Cancelar Edición</button>
+                    <!-- Le quitamos la clase 'oculto' para que salga siempre y cambiamos el texto -->
+                    <button type="button" id="btn-cancelar-edicion" class="btn-secundario">Limpiar Formulario <i class="fa-solid fa-broom"></i></button>
                     <button type="submit" id="btn-guardar-cita" class="btn-principal">Guardar Cita en Agenda <i class="fa-solid fa-bookmark"></i></button>
                 </div>
             </form>

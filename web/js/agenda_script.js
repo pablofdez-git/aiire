@@ -186,6 +186,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let citaSeleccionadaId = null;
     let horaTargetGlobal = "";
 
+    const inputDniModal = document.getElementById('modal-input-dni');
+    if (inputDniModal) {
+        inputDniModal.addEventListener('input', () => {
+            inputDniModal.value = inputDniModal.value.toUpperCase().replace(/[\s-]/g, '');
+        });
+    }
+
     function asignarEventosAcciones() {
 
         // --- WHATSAPP CORREGIDO ---
