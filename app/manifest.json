@@ -2,19 +2,25 @@
   "short_name": "aiire App",
   "name": "aiire - Gestión Clínica",
   "icons": [
-    {
-      "src": "imagenes/logoAiireVerde.png",
-      "type": "image/png",
-      "sizes": "512x512",
-      "purpose": "any"
-    },
-    {
-      "src": "imagenes/logoAiireVerde.png",
-      "type": "image/png",
-      "sizes": "192x192",
-      "purpose":"any"
-    }
-  ],
+      {
+        "src": "imagenes/logoCuadrado.png",
+        "type": "image/png",
+        "sizes": "512x512",
+        "purpose": "any"
+      },
+      {
+        "src": "imagenes/logoAiireVerde.png",
+        "type": "image/png",
+        "sizes": "512x512",
+        "purpose": "any"
+      },
+      {
+        "src": "imagenes/logoAiireVerde.png",
+        "type": "image/png",
+        "sizes": "192x192",
+        "purpose": "any"
+      }
+    ],
   "start_url": "html/login.html",
   "background_color": "#4b5644",
   "theme_color": "#4b5644",
