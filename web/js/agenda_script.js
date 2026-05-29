@@ -57,9 +57,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const fechaFiltro = selectorFecha.value;
 
         try {
-            // Hacemos una consulta relacional (equivalente a un INNER JOIN en SQL clásico).
-            // Traemos los campos de la tabla "citas" y, gracias a la clave foránea, extraemos los
-            // datos del paciente asociado que residen en la tabla "pacientes".
+            // Ampliamos el rango de búsqueda: traemos desde el mediodía del día anterior
+            // hasta el mediodía del día siguiente para cazar las citas aunque tengan desfase horario.
+            const fechaClave = new Date(fechaFiltro);
+
+            const diaAntes = new Date(fechaClave);
+            diaAntes.setDate(diaAntes.getDate() - 1);
+            const fechaDiaAntes = `${diaAntes.getFullYear()}-${String(diaAntes.getMonth() + 1).padStart(2, '0')}-${String(diaAntes.getDate()).padStart(2, '0')}`;
+
+            const diaDespues = new Date(fechaClave);
+            diaDespues.setDate(diaDespues.getDate() + 1);
+            const fechaDiaDespues = `${diaDespues.getFullYear()}-${String(diaDespues.getMonth() + 1).padStart(2, '0')}-${String(diaDespues.getDate()).padStart(2, '0')}`;
+
             const { data, error } = await supabaseClient
                 .from('citas')
                 .select(`
@@ -76,33 +85,40 @@ document.addEventListener('DOMContentLoaded', () => {
                         telefono
                     )
                 `)
-                .gte('fecha_hora', `${fechaFiltro} 00:00:00`) // Filtro desde el primer segundo del día
-                .lte('fecha_hora', `${fechaFiltro} 23:59:59`); // Hasta el último segundo del día
+                .gte('fecha_hora', `${fechaDiaAntes} 12:00:00`)
+                .lte('fecha_hora', `${fechaDiaDespues} 12:00:00`);
 
             if (error) throw error;
 
-            // MAPEADO DE NORMALIZACIÓN: Transformamos el JSON complejo e incómodo que nos manda Supabase
-            // en un objeto plano de JavaScript súper limpio y fácil de recorrer
-            baseDatosCitas = data.map(c => {
-                const fechaObjeto = new Date(c.fecha_hora);
-                const horas = String(fechaObjeto.getHours()).padStart(2, '0');
-                const minutos = String(fechaObjeto.getMinutes()).padStart(2, '0');
-                const horaTurno = `${horas}:${minutos}`; // Extraemos únicamente el tramo "HH:MM"
+            console.log("📦 Citas totales recuperadas de la nube en este rango amplio:", data);
 
-                const p = c.pacientes; // Alias corto para la parte del objeto del paciente relacional
+            // FILTRADO Y MAPEADO: Ahora procesamos las citas en el navegador
+            baseDatosCitas = data.filter(c => {
+                // Comprobamos si el texto de la fecha_hora contiene el día que queremos ver en la agenda (YYYY-MM-DD)
+                return c.fecha_hora.includes(fechaFiltro);
+            }).map(c => {
+                // Pescamos la hora limpia (HH:MM) usando la expresión regular
+                const coincidenciaHora = c.fecha_hora.match(/(\d{2}):(\d{2})/);
+                let horaTurno = "00:00";
+                if (coincidenciaHora) {
+                    horaTurno = `${coincidenciaHora[1]}:${coincidenciaHora[2]}`;
+                }
+
+                const p = c.pacientes;
                 return {
                     id: c.id,
                     hora: horaTurno,
-                    fisio : (c.id_profesional === 1) ? 'maria_rosa' : 'alba_rojo', // Convertimos ID numérico a String de control
+                    fisio : (c.id_profesional === 1) ? 'maria_rosa' : 'alba_rojo',
                     nombre: p ? `${p.nombre} ${p.pr_apellido} ${p.sg_apellido || ''}`.trim() : 'Paciente Anónimo',
                     dni: p ? p.dni : '',
                     tel: p ? p.telefono : '',
                     tratamiento: 'Fisioterapia',
-                    notas: c.observaciones // Mapeamos observaciones de la base de datos al campo de notas clínicas
+                    notas: c.observaciones
                 };
             });
 
-            pintarAgenda(); // Forzamos el renderizado visual de las filas en el HTML una vez tenemos los datos limpios
+            console.log("🎯 Citas filtradas listas para pintar hoy:", baseDatosCitas);
+            pintarAgenda();
 
         } catch (error) {
             console.error("Error cargando agenda:", error);

@@ -1,37 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Vinculamos los elementos de control de la interfaz del historial clínico
+    // Vinculamos los elementos de control que ya tenías en tu interfaz
     const buscador = document.getElementById('buscador-pacientes');
     const tablaCompleta = document.querySelector('.tabla-historial');
     const cuerpoTabla = document.getElementById('cuerpo-tabla-pacientes');
     const mensajeNoResultados = document.getElementById('mensaje-no-resultados');
     const contadorPacientes = document.getElementById('num-pacientes');
 
-    // Array maestro que almacena la copia exacta de todos los pacientes descargados de la nube
+    // NUEVOS ELEMENTOS: Vinculamos el modal del historial clínico interactivo
+    const modalHistorial = document.getElementById('modal-historial-paciente');
+    const btnCerrarModal = document.getElementById('btn-cerrar-modal-historial');
+    const contenedorLineaTiempo = document.getElementById('linea-tiempo-citas');
+
+    // Array maestro en memoria RAM para guardar a todos los pacientes que bajemos de internet
     let listaPacientesGlobal = [];
 
-    // FUNCIÓN HELPER UTILIDAD: Normaliza el texto quitando tildes y diéresis de forma limpia.
-    // Esto es vital para que si el usuario busca "maria" con minúscula y sin tilde, encuentre igualmente a "María"
+    // Helper para limpiar tildes y diéresis para que las búsquedas no sean tan rígidas
     const eliminarTildes = (texto) => {
-        return texto
-            .normalize("NFD")               // Descompone los caracteres acentuados en sus letras base + sus tildes aisladas
-            .replace(/[\u0300-\u036f]/g, ""); // Borra mediante Expresiones Regulares todos los símbolos de tildes aisladas
+        return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     };
 
     // ==========================================================================
-    // 1. DESCARGA DEL HISTORIAL (Hereda el cliente de index_script de forma limpia)
+    // 1. DESCARGA DEL HISTORIAL DE PACIENTES (Igual que antes)
     // ==========================================================================
     async function cargarHistorialDesdeNube() {
         try {
-            // Lanzamos un SELECT completo a la tabla "pacientes" ordenado alfabéticamente por el primer apellido
             const { data: pacientes, error } = await supabaseClient
                 .from('pacientes')
                 .select('*')
-                .order('pr_apellido', { ascending: true }); // Orden ascendente de la A a la Z
+                .order('pr_apellido', { ascending: true }); // Ordenados alfabéticamente
 
             if (error) throw error;
 
-            // Almacenamos el resultado en nuestro array global de respaldo y disparamos la renderización
             listaPacientesGlobal = pacientes;
             renderizarTablaPacientes(listaPacientesGlobal);
 
@@ -41,76 +41,152 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================================================
-    // 2. GENERACIÓN DINÁMICA DE FILAS DE LA TABLA PACIENTES
+    // 2. GENERACIÓN DINÁMICA DE FILAS (Modificada para que sea interactiva)
     // ==========================================================================
     function renderizarTablaPacientes(lista) {
         if (!cuerpoTabla) return;
-        cuerpoTabla.innerHTML = ''; // Vaciamos la tabla por completo antes de remaquetar
+        cuerpoTabla.innerHTML = ''; // Vaciamos la tabla antes de redibujar
 
-        // Actualizamos el contador visual de la parte superior con el tamaño exacto de la lista actual
         if (contadorPacientes) contadorPacientes.textContent = lista.length;
 
-        // CONTROL EXTRA: Si la lista de pacientes viene vacía (porque la base de datos está a cero o la búsqueda falló)
         if (lista.length === 0) {
-            if (tablaCompleta) tablaCompleta.style.display = 'none'; // Escondemos los encabezados de la tabla
-            if (mensajeNoResultados) mensajeNoResultados.classList.remove('oculto-busqueda'); // Mostramos el aviso de vacío
+            if (tablaCompleta) tablaCompleta.style.display = 'none';
+            if (mensajeNoResultados) mensajeNoResultados.classList.remove('oculto-busqueda');
             return;
         }
 
-        // Si hay pacientes, hacemos visible la tabla y ocultamos el mensaje de error de búsqueda
         if (tablaCompleta) tablaCompleta.style.display = 'table';
         if (mensajeNoResultados) mensajeNoResultados.classList.add('oculto-busqueda');
 
-        // Bucle clásico: Generamos una fila `<tr>` por cada paciente que resida en la lista filtrada
         lista.forEach(p => {
             const fila = document.createElement('tr');
-            fila.className = 'fila-paciente';
+            // Le metemos una clase nueva para poder darle estilos CSS de cursor tipo mano (pointer)
+            fila.className = 'fila-paciente fila-clicable';
 
-            // Combinamos el nombre y los dos apellidos de forma limpia controlando que el segundo no sea nulo
+            // Le incrustamos el DNI en el dataset del elemento HTML para recuperarlo fácilmente
+            fila.dataset.dni = p.dni;
+
             const nombreCompleto = `${p.nombre} ${p.pr_apellido} ${p.sg_apellido || ''}`.trim();
 
-            // Estructuramos las celdas de la fila inyectando los datos de las columnas SQL correspondientes
             fila.innerHTML = `
-                <td class="td-nombre">${nombreCompleto}</td>
+                <td class="td-nombre">
+                    <strong>${nombreCompleto}</strong>
+                    <span style="font-size:0.75rem; color:var(--azul-consciente); display:block; margin-top:2px;">
+                        <i class="fa-solid fa-eye"></i> Haz clic para ver sesiones pasadas
+                    </span>
+                </td>
                 <td class="td-dni">${p.dni}</td>
                 <td class="td-tel">${p.telefono}</td>
                 <td>
                     <div class="bloque-nota-historial">
-                        <strong>Observaciones Clínicas:</strong>
-                        ${p.notas_clinicas || 'Sin patologías ni anotaciones registradas en su ficha.'}
+                        <strong>Nota Ficha:</strong> ${p.notas_clinicas || 'Sin anotaciones generales.'}
                     </div>
                 </td>
             `;
-            cuerpoTabla.appendChild(fila); // Insertamos la fila dentro del cuerpo de la tabla
+
+            // 🔥 EL GANCHOS DE CLIC: Al pinchar en cualquier parte de la fila, se abre su historial detallado
+            fila.addEventListener('click', () => {
+                abrirHistorialClinicoDetallado(p, nombreCompleto);
+            });
+
+            cuerpoTabla.appendChild(fila);
         });
     }
 
     // ==========================================================================
-    // 3. BUSCADOR INTELIGENTE EN TIEMPO REAL (Filtro por teclado en el cliente)
+    // 3. NUEVA FUNCIÓN: CONSULTA RELACIONAL DE CITAS PASADAS (LA MAGIA)
+    // ==========================================================================
+    async function abrirHistorialClinicoDetallado(paciente, nombreCompleto) {
+        // Rellenamos los datos del paciente en la cabecera fija del modal
+        document.getElementById('modal-paciente-nombre').textContent = nombreCompleto;
+        document.getElementById('modal-paciente-dni').textContent = paciente.dni;
+        document.getElementById('modal-paciente-tel').textContent = paciente.telefono;
+
+        // Inyectamos un spinner de carga temporal mientras Supabase responde
+        contenedorLineaTiempo.innerHTML = '<p style="font-size:0.9rem; color:#666; padding:15px; text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> Buscando sesiones en el archivo clínico...</p>';
+
+        // Activamos el modal visualmente metiendo la clase CSS correspondientes
+        modalHistorial.classList.add('mostrar');
+
+        try {
+            // Hacemos el SELECT a la tabla "citas" buscando las que pertenezcan al DNI de este paciente
+            const { data: citasPasadas, error } = await supabaseClient
+                .from('citas')
+                .select('fecha_hora, id_profesional, observaciones')
+                .eq('dni_paciente', paciente.dni)
+                .order('fecha_hora', { ascending: false }); // Las más NUEVAS salen arriba del todo
+
+            if (error) throw error;
+
+            contenedorLineaTiempo.innerHTML = ''; // Quitamos el spinner de carga
+
+            // Si el tío está registrado pero nunca ha reservado una cita real:
+            if (!citasPasadas || citasPasadas.length === 0) {
+                contenedorLineaTiempo.innerHTML = '<p style="font-style:italic; color:#888; text-align:center; padding: 30px 0;"><i class="fa-solid fa-calendar-minus"></i> Este paciente no tiene ninguna sesión registrada en la agenda.</p>';
+                return;
+            }
+
+            // Bucle: Procesamos cada cita recuperada y la transformamos en una píldora de la línea de tiempo
+            citasPasadas.forEach(c => {
+                // Formateamos la fecha rara de Supabase a algo humano en español (Ej: "29 may 2026")
+                const objFecha = new Date(c.fecha_hora);
+                const fechaLegible = objFecha.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+                const horaLegible = `${String(objFecha.getHours()).padStart(2, '0')}:${String(objFecha.getMinutes()).padStart(2, '0')}h`;
+
+                // Identificamos a la profesional según el ID numérico corporativo de la base de datos
+                const especialista = (c.id_profesional === 1) ? 'María Rosa' : 'Alba Rojo';
+                const claseBorde = (c.id_profesional === 1) ? 'rosa' : 'alba';
+
+                // Creamos el contenedor del bloque de la sesión
+                const itemSesion = document.createElement('div');
+                itemSesion.className = `sesion-item-linea fisio-borde-${claseBorde}`;
+
+                itemSesion.innerHTML = `
+                    <div class="sesion-meta">
+                        <span class="sesion-fecha"><i class="fa-regular fa-calendar"></i> ${fechaLegible}</span>
+                        <span class="sesion-hora"><i class="fa-regular fa-clock"></i> ${horaLegible}</span>
+                        <span class="sesion-especialista"><i class="fa-solid fa-user-doctor"></i> Especialista: ${especialista}</span>
+                    </div>
+                    <div class="sesion-detalles">
+                        <strong>Notas clínicas de esta sesión:</strong>
+                        <p>${c.observaciones || 'No se registraron anotaciones específicas en esta consulta.'}</p>
+                    </div>
+                `;
+                contenedorLineaTiempo.appendChild(itemSesion);
+            });
+
+        } catch (err) {
+            console.error("Error al rescatar el historial médico:", err);
+            contenedorLineaTiempo.innerHTML = '<p style="color:red; font-size:0.9rem; text-align:center; padding:15px;"><i class="fa-solid fa-triangle-exclamation"></i> Error crítico al conectar con el servidor clínico.</p>';
+        }
+    }
+
+    // Listener para cerrar el modal interactivo con la cruz superior
+    if (btnCerrarModal) {
+        btnCerrarModal.addEventListener('click', () => {
+            modalHistorial.classList.remove('mostrar');
+        });
+    }
+
+    // ==========================================================================
+    // 4. FILTRO DE BÚSQUEDA EN TIEMPO REAL (Igual que antes)
     // ==========================================================================
     if (buscador) {
-        // El evento "input" salta de forma instantánea cada vez que el usuario pulsa o borra una letra en el cuadro
         buscador.addEventListener('input', () => {
-            // Normalizamos la cadena de búsqueda: quitamos espacios extras, la ponemos en minúsculas y eliminamos tildes
             const textoBusqueda = eliminarTildes(buscador.value.toLowerCase().trim());
 
-            // Filtramos el array maestro sin tocar la base de datos de internet (Búsqueda ultrarrápida en memoria local)
             const pacientesFiltrados = listaPacientesGlobal.filter(p => {
-                // Normalizamos los tres campos clave del objeto paciente para compararlos bajo las mismas reglas limpias
                 const nombreCompleto = eliminarTildes(`${p.nombre} ${p.pr_apellido} ${p.sg_apellido || ''}`.toLowerCase());
                 const dni = p.dni.toLowerCase();
                 const telefono = p.telefono.toLowerCase();
 
-                // CONDICIÓN LÓGICA: Si el texto introducido coincide con parte del nombre, del DNI o del teléfono, ¡se queda en la lista!
                 return nombreCompleto.includes(textoBusqueda) ||
                        dni.includes(textoBusqueda) ||
                        telefono.includes(textoBusqueda);
             });
 
-            // Volvemos a pintar la tabla usando el subconjunto de pacientes que han superado el filtro
             renderizarTablaPacientes(pacientesFiltrados);
 
-            // CONTROL DE FRACASO: Si la búsqueda no ha arrojado ninguna coincidencia, alteramos el mensaje para avisar de forma específica
             if (pacientesFiltrados.length === 0 && mensajeNoResultados) {
                 if (tablaCompleta) tablaCompleta.style.display = 'none';
                 mensajeNoResultados.classList.remove('oculto-busqueda');
@@ -119,6 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Arrancamos el flujo de carga automático al abrir la pestaña del historial clínico
+    // Lanzamos la carga inicial nada más entrar en la pestaña
     cargarHistorialDesdeNube();
 });

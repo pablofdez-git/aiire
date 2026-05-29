@@ -57,7 +57,24 @@
                 <i class="fa-solid fa-folder-open"></i> El historial médico está vacío. Añade una cita para registrar un paciente.
             </div>
         </div>
-    </main>
 
+        <div id="modal-historial-paciente" class="modal-historial-wrapper">
+            <div class="modal-historial-contenido">
+                <div class="modal-historial-cabecera">
+                    <div>
+                        <h2 id="modal-paciente-nombre">Nombre del Paciente</h2>
+                        <p id="modal-paciente-subti"><i class="fa-solid fa-id-card"></i> <span id="modal-paciente-dni">DNI</span> | <i class="fa-solid fa-phone"></i> <span id="modal-paciente-tel">Teléfono</span></p>
+                    </div>
+                    <button type="button" id="btn-cerrar-modal-historial" class="btn-cerrar-modal">&times;</button>
+                </div>
+
+                <div class="modal-historial-cuerpo">
+                    <h3><i class="fa-solid fa-clock-rotate-left"></i> Línea de Tiempo de Sesiones</h3>
+                    <!-- Aquí dentro el JS inyectará las citas dinámicamente -->
+                    <div id="linea-tiempo-citas" class="linea-tiempo-contenedor"></div>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 </html>
