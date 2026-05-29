@@ -188,3 +188,35 @@
     color: var(--texto-oscuro-pro);
     font-weight: 600;
 }
+
+/* ==========================================================================
+   RESPONSIVE DESIGN: ADAPTACIÓN PARA MÓVILES Y TABLETS
+   ========================================================================== */
+
+@media (max-width: 850px) {
+    /* 1. Forzamos a que el formulario y la auditoría se pongan uno debajo de otro */
+    .grid-bloques-gestion {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+
+    /* 2. Reducimos el margen general para aprovechar el espacio de la pantalla */
+    .contenedor-admin-global {
+        margin: 20px auto;
+        padding: 0 12px;
+    }
+
+    /* 3. Ajustamos las tarjetas de estadísticas para que no queden gigantes */
+    .tarjeta-stat-item {
+        padding: 15px;
+    }
+
+    .tarjeta-stat-item p {
+        font-size: 2rem; /* Números un pelo más pequeños en móvil */
+    }
+
+    /* 4. Le damos un poco más de aire a las tarjetas de gestión */
+    .bloque-admin-card {
+        padding: 20px;
+    }
+}
